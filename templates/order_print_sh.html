@@ -1,0 +1,197 @@
+<style media=print>     
+.Noprint{display:none;}     
+.PageNext{page-break-after:always;}     
+</style>     
+<style type="text/css">
+body { margin:0;}
+td{font-size:13px;}
+</style>
+<table height="60"><tr><td></td></tr></table>
+<table width="700" border="0">
+	<tr height="25">
+     <td width="18%" valign="top" ><b>
+	  {foreach from=$array item=pack}
+	  <font size="-1">{$pack}</font><br/>
+	  {/foreach}
+	  </b></td>
+      <td width="18%"> {$order.add_date}</td>
+      <td width="64%"><font size="+1">{$order.order_sn}&nbsp;-<b>{$psn}</b></font></td>
+    </tr>
+</table>
+<table width="700" border="0" height="50">
+  <tr>
+    <td></td>
+	<td></td>
+  </tr>
+</table>
+
+<table width="700" border="0">
+    <tr height="28">
+      <td width="20%" colspan="2">{$order.orderman}</td>
+	  <td width="18%">{$order.ordertel}</td>
+      <td width="2%">&nbsp;</td>
+	  <td width="21%">&nbsp;</td>
+      <td width="1%">&nbsp;</td>
+	  <td width="38%">{$order.tel}&nbsp;</td>
+    </tr>
+    <tr height='28'>
+    	<td width="20%" colspan="2">{$order.consignee}</td>
+        <td width="18%">{$order.mobile}</td>
+		<td width="2%">&nbsp;</td>
+        <td width="21%">{$order.btime}</td>
+		<td width="1%">&nbsp;</td>
+        <td width="38%">-{$order.integral}</td>
+     </tr>
+     <tr height="25">
+	    <td width="2%"></td>
+    	<td colspan="6" width="480">{$order.address}</td>
+
+     </tr>
+     <tr height="25">
+	    <td width="2%"></td>
+    	<td colspan="6" height='25'width="480">{$order.money_address}</td>
+      </tr>
+</table>
+<table width="700" height="130" border="0">
+	<tr height="50">
+		<td colspan="7">&nbsp;</td>
+  	</tr>
+	{foreach from=$goods.goods item=goods}
+     <tr height="18" style="line-height:15px;">
+          <td width="16%" align="left">{$goods.goods_sn}{$goods.goods_name}</td>
+          <td width="5%" align="center">{$goods.goods_attr}</td>
+           <td width="10%" align="center">{$goods.goods_number}</td>
+           <td width="10%" align="center">{if $goods.goods_sn =='D3'}套{else}个{/if}</td>
+           <td width="12%" align="center">{$goods.goods_price}</td>
+           <td width="10%" align="left">{$goods.goods_discount}</td>
+           <td width="41%">{$goods.goods_sub}</td>
+     </tr>
+     {/foreach}
+	<tr><td colspan="7"></td></tr>
+ </table>
+ <table width="700" height="100px" border="0">
+   <tr>
+     <td>
+     <table width="210" height="100" style="float:left;" border="0">
+       <tr>
+	   <td width="70"></td>
+	  <td width="70">&nbsp;</td>
+	  <td width="70">&nbsp;</td>
+      </tr>
+      <tr height="30">
+	  <td></td>
+	  <td align="center">{$goods.canju}</td>
+	  <td align="center">{$goods.canju_sum}</td>
+     </tr>
+    	   <tr height="30">
+		      <td></td>
+			  <td align="center">{$goods.candle}</td>
+			  <td align="center">{$goods.candle_sum}</td>
+		   </tr>
+		</table>
+	 </td>
+	 <td>
+		<table width="590" height="100" border="0">
+		   <tr height="40">
+			  <td colspan="4">&nbsp;</td>
+		   </tr>
+		   <tr height="60">
+		   <td width="35"></td>
+			  <td width="70" align="center">{$order.pay_fee}<br /><br />{$order.shipping_fee}
+			  </td>
+			  <td width="200" align="center">
+			  {$order.card_name}{$order.card_message} </td>
+			  <td></td>
+				</tr>
+			</table>
+	   </td>
+	</tr>
+</table>
+<table width="580" height="70" border="0">
+  <tr>
+      <td colspan="7">&nbsp;</td>
+  </tr>
+   <tr>
+      <td width="150"></td>
+      <td height='28' width="100">{$order.goods_amount}</td>
+      <td width="80">{$order.fj_fee}</td>
+      <td width="80">{$order.fw_fee}</td>
+      <td width="80">{$order.money_paid}</td>
+      <td width="80">{$order.pay_name}</td>
+      <td width="290"><font size="+2"> {$order.amount}</font></td>
+  </tr>
+</table>
+<table width="500" height="60" border="0">
+	<tr>
+      <td width='130' rowspan="2" height='60'>&nbsp;</td>
+      <td width="100" height="40">{$order.inv_payee}&nbsp;</td>
+      <td width="100">{$order.inv_content}&nbsp;</td>
+      <td width="200">{$order.to_buyer}&nbsp;</td>
+  </tr>
+</table>
+<table width="480" height="80" border="0">
+	<tr>
+   	  <td width="30" height='20'>&nbsp;</td>
+      <td width="30">&nbsp;</td>
+      <td width="30">&nbsp;</td>
+      <td>&nbsp;</td>
+  </tr>
+    <tr>
+    	<td height='60'width="25%" align="center"></td>
+      	<td width="25%" align="center">{$order.give_integral}</td>
+        <td width="25%">{$order.scts}&nbsp;</td>
+        <td width="25%">{$order.wsts}&nbsp;</td>
+    </tr>
+</table>
+<table height="210"><tr><td width=150>&nbsp;</td><td valign=bottom><h2>{$psn}</h2></td></tr></table>
+<table width='700' height="25" border="0">
+	<tr>
+      <td width="25%">{$order.kfgh}</td>
+      <td width="20%">{$order.add_date}</td>
+      <td width="55%" style="font-size:17px;"><B>{$order.order_sn}</B></td>
+  </tr>
+</table>
+<table width='700' border="0">
+	<tr height="30">
+      <td width="40"></td>
+      <td width="70">{$order.orderman}</td>
+      <td width="100"></td>
+	  <td width="80">{$order.btime}</td>
+      <td width="60"></td>
+      <td></td>
+  </tr>
+</table>
+<table width="700" height="56">
+    <tr>
+    	<td width="40"></td>
+  		<td colspan='5' height='28'>
+	   {foreach from=$goods.goods item=goods}
+        {$goods.goods_attr}{$goods.goods_name}{$goods.goods_number}个，
+       {/foreach}
+		</td>
+    </tr>
+	<tr>
+	    <td width="40">&nbsp;</td>
+        <td colspan='5' height='28'>
+  配送费： {$order.shipping_fee}  &nbsp;</td> 
+	</tr>
+</table>
+<table width="700" height="155">
+	<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$order.ordertel}{$order.mobile}<br />{$order.other}</td></tr>
+</table>
+<table width="700">
+    <tr>
+    	<td height="30" width="60">&nbsp;</td>
+        <td width="70">{$canju}&nbsp;</td>
+      <td width="60">{$candle}</td>
+      <td width="70">&nbsp;</td>
+      <td width="80">&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+    	<td width="30">&nbsp;</td>
+        <td width="160">{$order.card_message}</td>
+        <td colspan="4" align="left"></td>
+  </tr>
+</table>
+

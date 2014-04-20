@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>21Cake</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<link href="styles/main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="list-div" style="margin-bottom: 5px">
+<table width="50%" cellpadding="3" cellspacing="1">
+  <tr>
+    <th colspan="4" align="left">基本信息</th>
+  </tr>
+  <tr>
+    <td width="18%"><div align="left"><strong>工号</strong></div></td>
+    <td width="34%">{$order.kfgh|default:web}</td>
+    <td width="15%"><div align="left"><strong></strong></div></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td width="18%"><div align="left"><strong>订单号</strong></div></td>
+    <td width="34%">{$order.order_sn}</td>
+    <td width="15%"><div align="left"><strong>订单状态</strong></div></td>
+    <td>{$order.status}</td>
+  </tr>
+  <tr>
+    <td><div align="left"><strong>订货人</strong></div></td>
+    <td>{$order.orderman}</td>
+    <td><div align="left"><strong>下单时间</strong></div></td>
+    <td>{$order.order_time}</td>
+  </tr>
+  <tr>
+    <td><div align="order_time"><strong>支付方式</strong></div></td>
+    <td>{$order.pay_name}:{$order.pay_note}</td>
+    <td><div align="left"><strong>送货时间</strong></div></td>
+    <td>{$order.best_time}</td>
+  </tr>
+  <tr>
+    <td><div align="left"><strong>收货人</strong></div></td>
+    <td colspan="3">{$order.consignee|escape}</td>
+  </tr>
+  <tr>
+    <td><div align="left"><strong>送货地址:</strong></div></td>
+    <td>[{$order.region}] {$order.address|escape}</td>
+    <td><div align="left"><strong>{$lang.label_zipcode}</strong></div></td>
+    <td>{$order.zipcode|escape}</td>
+  </tr>
+  <tr>
+    <td><div align="left"><strong>收款地址:</strong></div></td>
+    <td colspan="3">{$order.money_address|escape}</td>
+  </tr>
+  <tr>
+    <td><div align="left"><strong>商品:</strong></div></td>
+    <td colspan="3">{$order.goods}</td>
+  </tr>
+  <tr>
+    <td width="17%"><div align="left"><strong>餐具:</strong></div></td>
+    <td width="35%">{$order.canju}</td>
+    <td width="21%"><div align="left"><strong>蜡烛:</strong></div></td>
+    <td width="27%">{$order.candle}</td>
+  </tr>
+  <tr>
+    <td width="17%"><div align="left"><strong>生产提示:</strong></div></td>
+    <td width="35%">{$order.scts}</td>
+    <td width="21%"><div align="left"><strong>外送提示:</strong></div></td>
+    <td width="27%">{$order.wsts}</td>
+  </tr>
+  <tr>
+    <td><div align="left"><strong>抬头</strong></div></td>
+    <td>{$order.inv_payee}</td>
+    <td><div align="left"><strong>内容</strong></div></td>
+    <td>{$order.inv_content}</td>
+  </tr>
+  <tr>
+    <td><div align="left"><strong>客户要求</strong></div></td>
+    <td colspan="3">{$order.postscript}</td>
+  </tr>
+  <tr>
+    <td><div align="left"><strong>生日牌</strong></div></td>
+    <td>{$order.card_name}</td>
+    <td><div align="left"><strong>内容</strong></div></td>
+    <td>{$order.card_message}</td>
+  </tr>
+  <tr>
+    <td><div align="left"><strong>客服备注</strong></div></td>
+    <td colspan="3">{$order.to_buyer}</td>
+  </tr>
+</table>
+</div>
+
+<div class="list-div" style="margin-bottom: 5px">
+<table cellpadding="3" width="50%" cellspacing="1">
+  <tr>
+    <th colspan="6" align="left">改单历史</th>
+  </tr>
+  <tr>
+    <th>修改内容</th>
+    <th>修改时间</th>
+    <th>完成时间</th>
+    <th>操作客服</th>
+    <th>操作备注</th>
+  </tr>
+  {foreach from=$action item=list}
+  <tr>
+    <td><div align="center">{$list.back_content}</div></td>
+    <td><div align="center">{$list.actime}</div></td>
+    <td><div align="center">{$list.done_time}</div></td>
+    <td><div align="center">{$list.admin}</div></td>
+    <td><div align="center">{$list.note}</div></td>
+  </tr>
+  {/foreach}
+</table>
+</div>
+</form>
+</body>
+</html>

@@ -1,0 +1,106 @@
+{if $full_page}
+{include file="header.html"}
+{insert_scripts files="utils.js,listtable.js,transport.js,datepicker/WdatePicker.js,validator.js"}
+<style type="text/css">
+.ul1{
+	list-style:none;
+	padding:5px;
+	
+}
+.ul1 li{
+	float:left;
+	width:50px;
+}
+.ul2{
+	list-style:none;
+	padding:5px;
+	clear:left;
+}
+.ul2 li{
+	float:left;
+	width:130px;
+	margin-top:10px;
+
+}
+</style>
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<!-- 订单搜索 Start -->
+<form action="javascript:getInfo();" name="getForm">
+<div class="form-div">
+    
+        <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+        日期 <input type="text" name="date"  id="date" value="{$date}" size="10" readonly onClick="javascript:WdatePicker()"   />
+	
+</div>
+<div class="form-div">
+	<ul class ="ul1">
+		<li><input onclick="listTable.selectAll(this,'field')" type="checkbox" id="selectAll" value="getAll " /> 全选</li>
+		<li><input type="checkbox" name="" onclick="reverseSelect()" value="invertAll" /> 反选</li>
+	</ul>
+	<ul class="ul2">
+		{foreach from=$fields_arr item='f'}
+		<li><input type="checkbox" name="field" {if $f == 'order_sn' || $f == 'order_status' || $f == 'country' || $f == 'best_time'|| $f == 'shipping_id'|| $f == 'shipping_name' || $f == 'pay_id' || $f == 'pay_name' || $f == 'card_name' || $f == 'card_message' || $f == 'goods_amount' || $f == 'pay_note' || $f == 'scts' || $f == 'wsts'|| $f == 'goods_id' || $f == 'goods_name' || $f == 'goods_sn' || $f == 'goods_number' || $f == 'goods_price' || $f == 'goods_attr' } checked="checked" {/if} value="{$f}" />  {$f}</li>
+		{/foreach}
+	</ul>
+	
+	<div class="clear"></div>
+	
+</div>
+
+<!-- 订单搜索 End -->
+<div class="list-div" style="border:0px red solid">
+{/if}
+<input name="sub" type="submit" class="button" value=">>导出"  />
+{if $full_page}
+</div>
+</form>
+{literal}
+<script language="JavaScript">
+
+
+function getInfo(){
+	var date = document.getElementById("date").value;
+	var field = document.getElementsByName("field");
+	var field_arr = new Array();
+	for(var i=0; i<field.length; i++){
+		if(field[i].checked == true){
+			field_arr.push(field[i].value);
+			
+		}
+	}
+	if(field_arr.length != 0){
+		var field_str = field_arr.toString();
+		var args = "act=export&date="+date+"&field_str="+field_str;
+		window.location.href="data_export.php?"+args;
+	}
+	
+	//Ajax.call('data_export.php',args,callback,'GET','TEXT');
+	
+}
+function reverseSelect(){
+	var field = document.getElementsByName("field");
+	for(var i=0; i<field.length; i++){
+		if(field[i].checked == true){
+			field[i].checked = false;
+			
+		}else{
+			field[i].checked = true;
+		}
+	}
+	document.getElementById('selectAll').checked=false;
+}
+
+function callback(re){
+
+	alert(this)
+}
+</script>
+{/literal}
+{include file="pagefooter.htm"}
+{/if}

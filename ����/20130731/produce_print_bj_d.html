@@ -1,0 +1,485 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>生产打印</title>
+<style type="text/css">
+body{
+margin:0px;
+}
+.container{
+
+padding-top:10px;
+width:518px;
+height:344px;
+border:0px blue solid;
+
+}
+
+.container1{
+
+border:0px black solid;
+width:518px;
+height:344px;
+margin-bottom:800px;
+
+}
+.container2{
+
+border:0px red solid;
+margin-bottom:200px;
+padding-top:10px;
+width:518px;
+height:344px;
+
+
+}
+
+.con1{
+paddong-top:10px;
+width:320px;
+height:344px;
+border:0px black solid;
+margin-left:34px;
+
+margin-right:11px;
+
+}
+.con2{
+paddong-top:10px;
+width:310px;
+height:344px;
+border:0px black solid;
+margin-left:34px;
+margin-right:11px;
+
+}
+#left{
+width:300px;
+height:344px;
+
+float:left;
+}
+#right{
+width:180px;
+height:306px;
+
+
+float:left;
+}
+.left-content{
+margin-top:33px;
+margin-left:0px;
+margin-right:11px;
+height:260px;
+
+}
+.left-bottom{
+margin-left:35px;
+height:22px;
+}
+.content_text{
+font:"宋体";
+font-size:12px;
+line-height:14px;
+
+}
+.content_14{
+font:"宋体";
+font-size:14px;
+font-weight:bold;
+}
+p{
+margin:0;
+margin-bottom:5px;
+}
+.left-bottom-text{
+width:124px;
+float:left;
+
+}
+.left-content-container{
+border-left:dashed 1px #000000;
+margin-top:33px;
+margin-right:35px;
+height:282px;
+
+
+}
+.left-content-text{
+width:168px;
+margin-left:11px;
+
+}
+.right-title{
+font:"宋体";
+font-size:12px;
+font-weight:bold;
+
+}
+.font_22{
+font-size:22px;
+font:"宋体";
+font-weight:bold;
+line-height:22px;
+}
+.xm{
+width:60px;
+float:left;
+text-align:left;
+}
+.mk{
+width:48px;
+float:left;
+text-align:right;
+
+}
+.bf{
+width:59px;
+float:left;
+text-align:right;
+
+}
+.right-content{
+font-size:10px;
+font:"宋体";
+}
+.hx3{
+border-bottom:3px #000000 solid;
+margin:3px 0px;
+clear:both;
+}
+.conhx{
+border-bottom:2px #000000 solid;
+margin:3px 0px;
+clear:both;
+}
+@media print{
+.noprint{
+display:none;
+
+}
+
+}
+</style>
+</head>
+
+<body>
+<div class="container1">
+
+<div class="con1">
+   <div id="table" style="width:100%; border-top:solid 0px #ccc; border-left:solid 0px #ccc;"> 
+      <div id="tr">         
+	  <div id="td" style="width:20%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">工单号：</font></b></div>     
+	   <div id="td" style="width:25%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">{$pack.route_name}-{$pack.turn}-{if $order.ice_bag_num < 10}0{/if}{$order.ice_bag_num}</font></b></div>  
+	  <div id="td" style="width:20%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">订单号：</font></b></div>      
+	  <div id="td" style="width:30%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">{$order.order_sn}</font></b></div>   
+   </div>
+   <div id="tr">
+     <div class="conhx"></div>
+   </div>     
+      <div id="tr"> 
+	   <table width="50">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>    
+	    <div id="td" style="width:25%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">餐具数量：</font></b></div>        
+		<div id="td" style="width:20%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b>{$order.cj}</b> </div>
+		<div id="td" style="width:25%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">蜡烛数量：</font></b></div>        
+		<div id="td" style="width:30%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b>{$candle}</b></div>     
+	 </div>
+	  <div id="tr">
+        <div class="conhx"></div>
+     </div>
+	  <div id="tr">  
+	     <table width="50">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>
+	    <div id="td" style="width:27%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">备注：</b></div>        
+		<div id="td" style="width:30%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"></div>
+		<table height="25">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>
+		
+	 </div>
+	  <div id="tr">
+        <div class="conhx"></div>
+     </div>
+	  <div id="tr"> 
+	   <table width="50">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>     
+	    <div id="td" style="width:30%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="+1">蛋糕名称：</font></b></div>        
+		<div id="td" style="width:30%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">{$order.gname}{if $order.ms eq 'm'}<span style="font-size:12px;">(裱花蛋糕-冰点心)</span> {else}(裱花蛋糕){/if}</font> </b></div>
+		 <div id="td" style="width:25%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">蛋糕规格：</font></b></div>  
+		<div id="td" style="width:10%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><font size="-1"><b>{$order.goods_attr}</b></font></div>
+		
+	 </div>
+	  <div id="tr">
+        <div class="conhx"></div>
+     </div>
+	  <div id="tr"> 
+	   <table width="50">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>    
+	    <div id="td" style="width:30%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">生日牌信息：</font></b></div>        
+		<div id="td" style="width:30%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">{if $order.card_name eq '其它'}{$order.cmessage}{else}{$order.card_name}{/if}</font></b></div>
+		<div id="td" style="width:25%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"></div>        <table height="25">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>
+	 </div>
+	  <div id="tr">
+        <div class="conhx"></div>
+     </div>
+	  <div id="tr">  
+	   <table width="50">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>   
+	    <div id="td" style="width:40%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">生产完成时间：</font></b></div>        
+		<div id="td" style="width:60%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1"></font></b></div>
+		<div id="td" style="width:50%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">实际完成时间：</font></b></div>        
+		<div id="td" style="width:10%; float:left; border-right:solid 0px #ccc; border-bottom:solid 1px #ccc;display:none;"></div>
+		<table height="25">
+		  <tr>
+		    <td></td>
+		  </tr>
+		</table>     
+	 </div>
+	 
+	  <div id="tr">
+        <div class="conhx"></div>
+     </div>
+	  <div id="tr">
+	   <table width="50">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>    
+	    <div id="td" style="width:40%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">制作人：</font></b></div>        
+		<div id="td" style="width:50%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1"></font></b></div>
+		<div id="td" style="width:20%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">装饰人：</font></b></div>        
+		<div id="td" style="width:25%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1"></font></b></div>        <table height="25">
+		  <tr>
+		    <td></td>
+		  </tr>
+		</table>   
+	 </div>
+	  <div id="tr">
+        <div class="conhx"></div>
+     </div>
+	  <div id="tr"> 
+	   <table width="50">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>    
+	    <div id="td" style="width:40%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">包装人：</font></b></div>        
+		<div id="td" style="width:50%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1"></font></b></div>
+		<div id="td" style="width:40%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">质检人：</font></b></div>        
+		<div id="td" style="width:0%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1"></font></b></div>        <table height="25">
+		  <tr>
+		    <td></td>
+		  </tr>
+		</table> 
+	 </div>
+	  <div id="tr">
+        <div class="conhx"></div>
+     </div>
+	  <div id="tr"> 
+	   <table width="50">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>    
+	    <div id="td" style="width:40%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">包装完成时间：</font></b></div>        
+		<div id="td" style="width:50%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1"></font></b></div>
+		<div id="td" style="width:20%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">磅重：</font></b></div>        
+		<div id="td" style="width:10%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1"></font></b></div> 
+		<table height="25">
+		  <tr>
+		    <td></td>
+		  </tr>
+		</table>     
+	 </div>
+	
+	  <div id="tr">
+        <div class="conhx"></div>
+     </div>
+</div>
+
+
+ 
+					
+					
+					
+</div>
+<div class=""></div>
+</div>
+
+<div class="container2">
+
+<div class="con2">
+   <div id="table" style="width:100%; border-top:solid 0px #ccc; border-left:solid 0px #ccc;"> 
+      <div id="tr">         
+	  <div id="td" style="width:20%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">工单号：</font></b></div>     
+	   <div id="td" style="width:25%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">{$pack.route_name}-{$pack.turn}-{if $order.ice_bag_num < 10}0{/if}{$order.ice_bag_num}</font></b></div>  
+	  <div id="td" style="width:20%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">订单号：</font></b></div>      
+	  <div id="td" style="width:30%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">{$order.order_sn}</font></b></div> 
+	  <table width="50">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>  
+   </div>
+   <div id="tr">
+     <div class="conhx"></div>
+   </div>     
+     
+	  
+	  <div id="tr"> 
+	  <table width="50">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>     
+	    <div id="td" style="width:35%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="+1">蛋糕名称：</font></b></div>        
+		<div id="td" style="width:30%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">{$order.gname}{if $order.ms eq 'm'}<span style="font-size:12px;">(裱花蛋糕-冰点心)</span> {else}(裱花蛋糕){/if} </font></b></div>
+		<div id="td" style="width:0%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"></div>
+		<table height="20">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>  
+	 </div>
+	  <div id="tr">
+        <div class="conhx"></div>
+     </div>
+	  <div id="tr">
+	  <table width="50">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>      
+	    <div id="td" style="width:20%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">规格：</font></b></div>        
+		<div id="td" style="width:20%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="+1">{$order.goods_attr}</font></b></div>
+		<div id="td" style="width:20%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"></div>        <div id="td" style="width:20%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"></div>
+	 </div>
+	  <div id="tr">
+        <div class="conhx"></div>
+     </div>
+	  <div id="tr">
+	    <table width="50">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>      
+	    <div id="td" style="width:25%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">备注：</font></b></div>        
+		<div id="td" style="width:24%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1"></font></b></div>
+		<div id="td" style="width:40%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1"></font></b></div>        
+		<div id="td" style="width:40%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"></div> 
+		<table height="30">
+		  <tr>
+		    <td></td>
+		  </tr>
+		</table>     
+	 </div>
+	  
+	  
+	  <div id="tr">
+        <div class="conhx"></div>
+     </div>
+	  <div id="tr"> 
+	     <table width="50">
+	    <tr>
+		 <td></td>
+		</tr>
+	  </table>      
+	    <div id="td" style="width:25%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1">出库人：</font></b></div>        
+		<div id="td" style="width:24%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1"></font></b></div>
+		<div id="td" style="width:40%; float:left; border-left:solid 0px #ccc; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"><b><font size="-1"></font></b></div>        
+		<div id="td" style="width:40%; float:left; border-right:solid 0px #ccc; border-bottom:solid 0px #ccc;"></div>  
+		<table height="30">
+		  <tr>
+		    <td></td>
+		  </tr>
+		</table>    
+	 </div>
+	  
+	 
+	  <div id="tr">
+        <div class="conhx"></div>
+     </div>
+</div>
+
+
+ 
+					
+					
+					
+</div>
+<div class=""></div>
+</div>
+<div style="PAGE-BREAK-AFTER:always"></div>
+<div class="container">
+	<div id="left">
+		<div class="left-content">
+			<p class="content_14">品名：{$order.gname}{if $order.ms eq 'm'}<span style="font-size:12px;">(裱花蛋糕-冰点心)</span> {else}(裱花蛋糕){/if}</p>
+			<p class="content_text">配料：{$order.goods_pl}</p>
+			<p class="content_text">保质期:{$order.goods_sav}<br />
+食用方法:{$order.goods_eat}  加工方式:冷加工<br />
+产品标准：SB/T  10329-2000  产品经检验符合标准要求<br />
+生产许可证编号：QS1112 2401 0387
+</p>
+<p class="content_text" >生产商:北京城承食品有限公司<br />
+生产地:北京市xxxxxx<br />
+产地:北京市通州区<br />
+出厂时间:{$order.picitime}
+</p>
+		</div>
+		<div class="left-bottom"><div class="left-bottom-text font_22">&nbsp;</div><div class="left-bottom-text font_22" style="text-align:right">{$pack.route_name}-{$pack.turn}-{if $order.ice_bag_num < 10}0{/if}{$order.ice_bag_num}</div></div>
+	</div>
+	<div id="right">
+		<div class="right-content">
+			<div class="left-content-container">
+				<div class="left-content-text">
+					<div class="right-title">生产日期：</div>
+					<div class="font_22" style="padding:3px 0">{$order.bdate}</div>
+					<div class="right-title">营养成分表</div>
+					<div class="hx3"></div>
+					<div class="xm right-title">项目</div><div class="mk right-title">每100克</div><div class="bf right-title">NRV%</div>
+					<div style="clear:both"></div>
+					<div style="border-bottom:2px #000000 solid;margin:3px 0;"></div>
+					<div class="xm right-content" >能量</div><div class="mk right-content">{$order.energy_g}千焦</div><div class="bf right-content">{$order.energy_r}%</div>
+					<div class="xm right-content" >蛋白质</div><div class="mk right-content" >{$order.protein_g}克</div><div class="bf right-content">{$order.protein_r}%</div>
+					<div class="xm right-content" >脂肪</div><div class="mk right-content" >{$order.fat_g}克</div><div class="bf right-content">{$order.fat_r}%</div>
+					<div class="xm right-content" style="width:80px" >-反式脂肪（酸）</div><div class="mk right-content" style="width:28px" >0克</div><div class="bf right-content">&nbsp;</div>
+					<div class="xm right-content" >碳水化合物</div><div class="mk right-content" >{$order.carb_g}克</div><div class="bf right-content">{$order.carb_r}%</div>
+					<div class="xm right-content"  >钠</div><div class="mk right-content" >{$order.na_g}克</div><div class="bf right-content">{$order.na_r}%</div>
+					<div style="clear:both"></div>
+					<div class="hx3"></div>
+					<div class="right-title" style="margin-top:3px;">净含量：</div>
+					<div class="font_22" style="text-align:right; padding-right:28px;">{$order.weight}</div>
+					<div class="font_22" style="text-align:right; padding-top:15px;">{$order.goods_sn}B</div>
+					<div class="right-title">公司网址：www.mescake.com</div>
+					<div class="right-title">服务热线：400 600 700</div>
+					
+				</div>
+				<div class="right-title" style="letter-spacing:-2px;width:180px;margin-left:10px;">本产品仅通过MES每实官方店铺售卖</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div style="PAGE-BREAK-AFTER:always"></div>

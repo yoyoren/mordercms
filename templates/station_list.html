@@ -1,0 +1,74 @@
+{if $full_page}
+{include file="header.html"}
+{insert_scripts files="utils.js,listtable.js"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<!-- 订单搜索 Start -->
+<div class="form-div">
+    <form action="javascript:searchAddess();" name="searchForm">
+        <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+        站点名称：<input name="code" type="text" id="code" size="10">
+        状态：<select name="flag" id="flag"><option value="">全部</option><option value="1">在用</option><option value="-1">未用</option></select>
+        自提：<select name="ziti" id="ziti" ><option value="">全部</option><option value="1">支持</option><option value="-1">不支持</option></select>
+        <input type="submit" value="开始查询" class="button" />
+    </form>
+</div>
+<!-- 订单搜索 End -->
+
+<!-- 订单列表 Start -->
+<form method="post" action="order.php?act=operate" name="listForm" onsubmit="return check()">
+    <div class="list-div" id="listDiv">{/if}
+        <table cellpadding="3" cellspacing="1" width="100%">
+        <tr>
+        	<th><input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" /><a href="javascript:listTable.sort('address_id', 'DESC'); ">ID</a></th>
+            <th>站点名称</th>
+            <th>编号</th>
+            <th>站点地址</th>
+            <th>状态</th>
+            <th>是否自提</th>
+            <th>操作</th>
+        <tr>
+        {foreach from=$station_list item=list}
+        <tr bgcolor="#ffffff" onMouseover="this.style.backgroundColor='#e9f6f8'" onMouseout="this.style.backgroundColor=''">
+            <td valign="top" nowrap="nowrap"><input type="checkbox" name="checkboxes" value="{$list.order_sn}" />{$list.station_id}</td>
+            <td align="center" >{$list.station_name}</td>
+            <td align="center" >{$list.station_code}</td>
+            <td align="left" nowrap="nowrap">{$list.address}</td>
+            <td align="center" valign="top" nowrap="nowrap" >{if $list.flag eq '1'}在用{else}未用{/if}</td>
+            <td align="center" valign="top" nowrap="nowrap" >{if $list.ziti eq '1'}支持{else}不支持{/if}</td>
+            <td align="center">
+            	<a href="station.php?act=edit&id={$list.station_id}">编辑</a>
+                <a href="javascript:;" onclick="listTable.remove({$list.station_id}, '您确定要删除此站点吗？', 'remove')">删除</a>
+            </td>
+        </tr>
+        {foreachelse}
+        <table><tr><td align="center" colspan="7">没有任何记录！</td></tr></table>
+        {/foreach}
+        </table>
+        <table id="page-table" cellspacing="0" bgcolor="#ffffff" width="100%"><tr><td align="center" nowrap="true">{include file="page.htm"}</td></tr></table>{if $full_page}
+    </div>
+</form>
+<!-- 订单列表 End -->
+
+{literal}<script language="JavaScript">
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+
+function searchAddess() { // Search address
+	var frm = document.forms['searchForm'].elements;
+	listTable.filter['code'] = Utils.trim(frm['code'].value);
+	listTable.filter['flag'] = Utils.trim(frm['flag'].value);
+	listTable.filter['ziti'] = Utils.trim(frm['ziti'].value);
+	listTable.filter['page'] = 1;
+	listTable.loadList();
+}
+</script>{/literal}{/if}

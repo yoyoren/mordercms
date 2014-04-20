@@ -1,0 +1,54 @@
+{include file="header.html"}
+{insert_scripts files="datepicker/WdatePicker.js"}
+<div class="text_title">
+<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+{if $action_link}
+<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+{/if}
+<div style="clear:both"></div>
+</div>
+
+<!-- 订单搜索 -->
+
+<div class="form-div">
+    <!--search-box--begin-->
+    <form name="form1" action="" method="get">
+    <div id="search_box" class="ziti1">
+    送货日期：
+ <input name="datetime" type="text" id="sdate" value="{$datetime}" onClick="javascript:WdatePicker()" readonly="true" size="10" />
+    订单号：<input type="text" name="order_sn" value="{$order_sn}" />
+    流水号：<input size="6" type="text" name="print_sn" value="{$print_sn}" maxlength="4" />
+    <input type="submit" name="sub" class="button"  value="查询" /> <input type="hidden" value="query" name="act" />
+     </div>
+     </form>
+    <!--search-box--end-->
+</div>
+
+    <!--pagebody--begin-->
+    <div class="list-div" id="listDiv">
+    <div>
+   	  <table width="100%" border="0" cellspacing="1" cellpadding="5">
+<tr  class="ziti1">
+    			<th >送货日期</td>
+    			<th>订单号</td>
+    			<th>流水号</td>
+    			<th>配送打印时间</td>
+    			<th>生产打印时间</td>
+  			</tr>
+  			{if $arr}
+  			<tr bgcolor="#ffffff" align="center">
+   			  <td>{$arr.best_time}</td>
+   			  <td><a href="more_order_info.php?order_id={$arr.order_id}" target="_blank">{$arr.order_sn}</a></td>
+   			  <td>{$arr.print_sn}</td>
+   			  <td>{$arr.ptime}</td>
+   			  <td>{$arr.stime}</td>
+  			</tr>
+  			{else}
+  			<tr bgcolor="#ffffff"><td colspan="5">无记录</td></tr>
+  			{/if}
+		</table>
+
+  </div>
+    <!--pagebody--end-->
+</body>
+</html>

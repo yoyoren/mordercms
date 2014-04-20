@@ -1,0 +1,27 @@
+{include file="header.html"}
+{insert_scripts files="datepicker/WdatePicker.js"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<div class="form-div">
+<form action="shipping_commission.php" name="searchForm" method="post">
+    日期<input name="bdate" type="text" value="{$filter.bdate}" onClick="javascript:WdatePicker()" readonly="true" size="10">&nbsp;&nbsp;
+	站点<select name="station">
+		{foreach from=$stations item=sta}
+		  <option value="{$sta.station_id}" {if $Current}selected="selected"{/if}>{$sta.station_name}</option>
+		{/foreach}
+	</select>
+</div>
+<!-- 订单列表 -->
+<div id="listDiv">
+	&nbsp;复核理由&nbsp;<textarea name="reason" cols="30" rows="3"></textarea>
+	<input type="hidden" name="act" value="reset" />&nbsp;&nbsp;&nbsp;
+    <input type="submit" value="复核提成" class="button" class="button" />
+  </form>
+</div>
+</body>
+</html>

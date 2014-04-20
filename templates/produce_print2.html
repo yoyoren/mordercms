@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<title>打印结果</title>
+<style media=print>     //print 免错位
+.Noprint{display:none;}     
+.PageNext{page-break-after:always;}     
+</style>     
+<style type="text/css">
+body { margin:0; font-size:14px;text-align:left; font-family:黑体; width:416px;}
+.main { display:block; float:left;width:416px;text-align:left; font-weight:bold;padding:0 4px 0 4px;}
+.main .top {height:390px;width:416px;display:block; float:left; line-height:27px; overflow:hidden;}
+.main .btm {height:258px;width:416px;display:block; float:left; line-height:13px; font-size:10px;}
+.main .top .t1 { height:35px; line-height:35px;border-bottom:solid 2px #000; float:left; font-size:12px;}
+.main .top .t1 .t11{width:170px; float:left;}
+.main .top .t1 .t12{width:130px; float:left;}
+.main .top .t1 .t13{width:116px; float:left;}
+.main .top .t2 {border-bottom:solid 2px #000; float:left; }
+.main .top .t2 .t21{ width:228px; float:left; font-weight:bolder;}
+.main .top .t2 .t22{ width:188px; float:left;}
+.main .top .t3 {border-bottom:solid 2px #000; float:left; }
+.main .top .t3 .t31{ width:288px; float:left;}
+.main .top .t3 .t32{ width:128px; float:left;}
+.main .top .t4{float:left;border-bottom:solid 2px #000; height:60px; line-height:30px;}
+.main .top .t4 .t41{float:left;width:288px;}
+.main .top .t4 .t42{float:left;width:120px;}
+.main .top .t4 .t42 .t421{float:left; height:30px;}
+.main .top .t4 .t42 .t422{float:left;}
+.main .top .t5 {float:left;width:408px;height:60px; line-height:40px;border-bottom:solid 2px #000; }
+.main .top .t6 {float:left;width:408px;border-bottom:solid 2px #000;  }
+.main .top .t6 .t61{float:left;width:204px; }
+.main .top .t6 .t62{float:left;width:204px; }
+.main .top .t7 {float:left;width:408px; font-size:9px;}
+
+
+.main .btm .b1 { width:290px; float:left; padding-top:2px;padding-bottom:2px;}
+.main .btm .b2 { width:116px; float:left;}
+.left {float:left;}
+</style>
+
+                    <object id="WebBrowser" classid="CLSID:8856F961-340A-11D0-A96B-00C04FD705A2" height="0"
+                        width="0" viewastext>
+                    </object></head>
+<body ms_positioning="GridLayout">
+<div class="main">
+	<div class="top">
+		 <div class="t1">
+			  <div class="t11">廿一客生产任务单</div>
+			  <div class="t12">城市批次:<font size="+3">{if $m eq 'm'}M {else}{if $order.country eq '442'}S{else}H{/if} {/if}</font></div>
+			  <div class="t13">{$print_sn}--{$order.goods_count}-{$order.i}</div>
+		 </div>
+		 <div class="t2">
+			  <div class="t21">要求完成时间:<font size="+1">{$order.end_time}</font>
+			  </div>
+			  <div class="t22">订单号:{$order.order_sn}</div>
+		 </div>
+		 <div class="t3">
+			  <div class="t31">品名:<font size="+2">{$order.goods_name}</font></div>
+			  <div class="t32">规格:<font size="+2">{$order.goods_attr}</font></div>
+		 </div>
+		 <div class="t4">
+			  <div class="t41">生日牌&nbsp;<font size="+2">{if $order.card_name eq '其它'}{$order.cmessage}{else}{$order.card_name}{/if}</font>
+			  </div>
+			  <div class="t42">
+				   <div class="t421">餐具&nbsp;<font size="+2">{$order.canju}</font>&nbsp;（份）</div>
+				   <div class="t422"></div>		
+			  </div>
+		 </div>
+		 <div class="t5">备注&nbsp;{$order.scts}</div>
+		 <div class="t6"><div class="t61">蛋糕重量</div><div class="t62">实际完成时间</div></div>
+		 <div class="t6"><div class="t61">制作人</div><div class="t62">装饰员</div></div>
+		 <div class="t6"><div class="t61">包装员</div><div class="t62">包装完成时间</div></div>
+		 <div class="t6"><div class="t61">产品评价</div><div class="t62">质检员</div></div>
+		 <div class="t7">{$order.ptime2}-{$order.address}</div>		 
+	</div>
+	<div class="btm">
+		<div class="b1">
+		<div style="height:24px; line-height:24px;font-size:16px;border-right:dotted 2px #000;">品名：{$order.gname}{if $order.ms eq 'm'}<span style="font-size:12px;">(裱花蛋糕-冰点心)</span> {else}(裱花蛋糕){/if}</div>
+		<div style="height:85px;border-right:dotted 2px #000; line-height:12px;">配料：{$order.goods_pl}
+		食品添加剂：{$order.goods_tjj}</div>
+		<div style="border-right:dotted 2px #000;">保质期:{$order.goods_sav}</div>
+		<div>食用方法:{$order.goods_eat}&nbsp;&nbsp;加工方式:冷加工</div>
+		<div>{if $order.ms eq 'm'}产品标准：DB 31/2005-2012{else}产品标准:&nbsp;SB/T &nbsp;10329-2000{/if}&nbsp;&nbsp;产品经检验符合标准要求</div>
+		<div>生产许可证编号：QS3112&nbsp;2401&nbsp;0422</div>
+		<div>生产商:上海廿一客食品有限公司&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+		<div>生产地:上海市闵行区春中路588号<font size="+4">{$print_sn}</font></div>
+		<div>产地:上海市闵行区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出厂时间:{$order.picitime}</div>
+		<div>公司网站:WWW.21CAKE.COM&nbsp;</div>
+		<div>服务热线:400-650-2121&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size="+3">{$pack.route_name}{if $pack.route_name}-{/if}{$pack.turn}</font></div>
+		<div>本产品仅通过廿一客官方店铺售卖</div>	
+		</div>
+		<div class="b2">
+		生产日期：<br /><font size="+2">{$order.bdate}</font>
+		<div>
+		    <div class="left" style="border-bottom:1px solid #000;width:132px;">营养成分表</div>
+			<div class="left" style="border-bottom:1px solid #000;border-left:1px solid #000;border-right:1px solid #000;width:130px;">
+				<div style="width:60px; display:block;float:left;">项目</div>
+				<div style="width:45px; display:block;float:left;">每100克</div>
+				<div style="width:23px; display:block;float:left;">NRV%</div>			   
+			</div>
+			<div class="left" style="border-left:1px solid #000;border-right:1px solid #000;width:130px;">
+				<div class="left" style="width:55px;">能量</div>
+				<div class="left" style="width:50px;text-align:right;">{$order.energy_g}千焦</div>
+				<div class="left" style="width:23px;text-align:right;">{$order.energy_r}%</div>
+			</div>
+			<div class="left" style="border-left:1px solid #000;border-right:1px solid #000;width:130px;">
+				<div class="left" style="width:55px;">蛋白质</div>
+				<div class="left" style="width:50px;text-align:right;">{$order.protein_g}克</div>
+				<div class="left" style="width:23px;text-align:right;">{$order.protein_r}%</div>
+			</div>		
+			<div class="left" style="border-left:1px solid #000;border-right:1px solid #000;width:130px;">
+				<div class="left" style="width:55px;">脂肪</div>
+				<div class="left" style="width:50px;text-align:right;">{$order.fat_g}克</div>
+				<div class="left" style="width:23px;text-align:right;">{$order.fat_r}%</div>
+			</div>
+            <div class="left" style="border-left:1px solid #000;border-right:1px solid #000;width:130px;">
+				<div class="left" style="width:88px;text-align:left; font-weight:lighter;">—反式脂肪(酸)</div>
+				<div class="left" style="width:17px;text-align:right;">0克</div>
+				<div class="left" style="width:23px;text-align:right;">&nbsp;</div>
+			</div>
+
+			<div class="left" style="border-left:1px solid #000;border-right:1px solid #000;width:130px;">
+				<div class="left" style="width:55px;">碳水化合物</div>
+				<div class="left" style="width:50px;text-align:right;">{$order.carb_g}克</div>
+				<div class="left" style="width:23px;text-align:right;">{$order.carb_r}%</div>
+			</div>
+			<div class="left" style="border-bottom:1px solid #000;border-left:1px solid #000;border-right:1px solid #000;width:130px;">
+				<div class="left" style="width:55px;">钠</div>
+				<div class="left" style="width:50px;text-align:right;">{$order.na_g}毫克</div>
+				<div class="left" style="width:23px;text-align:right;">{$order.na_r}%</div>
+			</div>
+			<div class="left" style="width:132px;">净含量：</div>
+			<div style="width:132px;height:50px;display:block;float:left; padding-top:10px;">
+			<a style="font-size:40px;">{$order.weight}</a>
+			</div>
+			<div class="left" style="width:138px; padding-left:30px; margin-top:15px;">
+              <font size="+4">&nbsp;&nbsp;{$order.goods_sn}{if $m eq 'm'}M {else}{if $order.country eq '442'}S{else}H{/if}{/if}</font> 
+			</div>			
+		</div>
+		</div>
+	</div>
+</div>

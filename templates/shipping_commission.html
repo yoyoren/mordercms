@@ -1,0 +1,90 @@
+{if $full_page}
+{include file="header.html"}
+{insert_scripts files="utils.js,listtable.js,datepicker/WdatePicker.js"}
+<div class="text_title">
+<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+{if $action}
+<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+{/if}
+<div style="clear:both"></div>
+</div>
+<!-- 订单搜索 -->
+
+<div class="form-div">
+  <form action="javascript:searchOrder()" name="searchForm">
+    <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+    日期<input name="bdate" type="text" value="{$filter.bdate}" onClick="javascript:WdatePicker()" readonly="true" size="10">&nbsp;&nbsp;
+    <input type="submit" value="搜索" class="button" class="button" />
+  </form>
+</div>
+<!-- 订单列表 -->
+<div id="listDiv" class="list-div">
+{/if}
+<table cellspacing='1' cellpadding='3' id="table" width="100%">
+	<tr id="attr">
+		<th colspan="2">&nbsp;</th>
+		<th>0.25磅</th>
+		<th>1.0磅</th>
+		<th>1.5磅</th>
+		<th>2.0磅</th>
+		<th>3.0磅</th>
+		<th>5.0磅</th>
+		<th>订单量</th>
+		<th>商品量</th>
+		<th>总磅重</th>
+		<th>环外配送费</th>
+	</tr>
+	<tr bgcolor="#ffffff">
+		<td rowspan="{$list.rowspan}" width="60px">{if $list.station}{$list.station}{else}&nbsp;{/if}</td>
+		{foreach from=$list.children item=clist}
+			<td width="50px">{if $clist.name}{$clist.name}{else}&nbsp;{/if}</td>
+			<td align="right">{if $clist.p25}{$clist.p25}{else}&nbsp;{/if}</td>
+			<td align="right">{if $clist.p10}{$clist.p10}{else}&nbsp;{/if}</td>
+			<td align="right">{if $clist.p15}{$clist.p15}{else}&nbsp;{/if}</td>
+			<td align="right">{if $clist.p20}{$clist.p20}{else}&nbsp;{/if}</td>
+			<td align="right">{if $clist.p30}{$clist.p30}{else}&nbsp;{/if}</td>
+			<td align="right">{if $clist.p50}{$clist.p50}{else}&nbsp;{/if}</td>
+			<td  align="right">{if $clist.orders}{$clist.orders}{else}&nbsp;{/if}</td>
+			<td align="right">{if $clist.goods}{$clist.goods}{else}&nbsp;{/if}</td>
+			<td align="right">{if $clist.sums}{$clist.sums}{else}&nbsp;{/if}</td>
+			<td align="right">{if $clist.fee >0}{$clist.fee}{else}&nbsp;{/if}</td>
+		</tr>
+		<tr bgcolor="#ffffff">
+		{/foreach}
+		<td>小计</td>
+		<td align="right">{if $list.turn1_025_x}{$list.turn1_025_x}{else}&nbsp;{/if}</td>
+		<td align="right">{if $list.turn1_1_x}{$list.turn1_1_x}{else}&nbsp;{/if}</td>
+		<td align="right">{if $list.turn1_15_x}{$list.turn1_15_x}{else}&nbsp;{/if}</td>
+		<td align="right">{if $list.turn1_2_x}{$list.turn1_2_x}{else}&nbsp;{/if}</td>
+		<td align="right">{if $list.turn1_3_x}{$list.turn1_3_x}{else}&nbsp;{/if}</td>
+		<td align="right">{if $list.turn1_5_x}{$list.turn1_5_x}{else}&nbsp;{/if}</td>
+		<td align="right">{if $list.turn1_ocount_x}{$list.turn1_ocount_x}{else}&nbsp;{/if}</td>
+		<td align="right">{if $list.turn1_gcount_x}{$list.turn1_gcount_x}{else}&nbsp;{/if}</td>
+		<td align="right">{if $list.total_p_x}{$list.total_p_x}{else}&nbsp;{/if}</td>
+		<td align="right">{if $list.shipping_fee_x}{$list.shipping_fee_x}{else}&nbsp;{/if}</td>
+	</tr>
+	<tr bgcolor="#ffffff">
+		<td colspan="18" align="left" ><br />每日在结算完毕后把提成数据导入到数据库中，就可以在提成查询中查询时间段的提成数据
+		<br /><span style="margin-left:700px">&nbsp;</span><a href="shipping_commission.php?act=list&reset=1">导入数据></a></td>
+	</tr>
+</table>
+{if $full_page}
+</div>
+<script language="JavaScript">
+{literal}
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+/**
+* 搜索订单
+*/
+function searchOrder()
+{
+		listTable.filter['bdate']    = Utils.trim(document.forms['searchForm'].elements['bdate'].value);
+        listTable.loadList();
+}
+</script>
+{/literal}
+
+{include file="pagefooter.htm"}
+{/if}

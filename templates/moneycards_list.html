@@ -1,0 +1,76 @@
+<!-- $Id: bonus_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+
+{if $full_page}
+{include file="header.html"}
+
+{insert_scripts files="utils.js,listtable.js"}
+<form method="POST" action="" name="listForm">
+<!-- start user_bonus list -->
+<div class="list-div" id="listDiv">
+{/if}
+
+  <table cellpadding="3" cellspacing="1">
+    <tr>
+      <th width="50">编号</th> 
+      <th>礼金卡描述</th>
+      <th>面值</th>
+      <th>卡片序列号</th>
+      <th>卡片密码</th>
+      <th>使用起始日期</th>
+      <th>使用失效日期</a></th>
+      <th>状态</th>
+      <th>生效人</th>
+      <th>生效日期</th>
+      <th>使用会员</th>
+      <th>使用时间</th>
+    </tr>
+    {foreach from=$moneycards_list item=moneycard}
+    <tr>
+      <td>{$moneycard.mcs_id}</td>       
+      <td>{$moneycard.mc_name}</td>
+      <td>{$moneycard.cardmoney}</td>
+      <td>{$moneycard.cardid}</td>
+      <td>{$moneycard.cardpassword}</td>
+      <td>{$moneycard.sdate}</td>
+      <td>{$moneycard.edate}</td>
+      <td>{if $moneycard.flag eq 0}待生效{else if $moneycard.flag eq 1}已生效{/if}</td>
+      <td>{$moneycard.aname}</td>
+      <td>{$moneycard.adate}</td>
+      <td>{$moneycard.user_name}</td> 
+      <td align="right">{$moneycard.used_time}</td> 
+    </tr>
+    {foreachelse}
+    <tr><td class="no-records" colspan="7">{$lang.no_records}</td></tr>
+    {/foreach}
+  </table>
+
+  <table cellpadding="4" cellspacing="0">
+    <tr>
+      <td align="right">{include file="page.htm"}</td>
+    </tr>
+  </table>
+{if $full_page}
+</div>
+<!-- end user_bonus list -->
+</form>
+ 
+<script type="text/javascript" language="JavaScript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+  listTable.query = "query_moneycards";
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+    // 开始检查订单
+    startCheckOrder();
+    document.forms['listForm'].reset();
+  }
+  {/literal}
+</script>
+{include file="pagefooter.htm"}
+{/if}

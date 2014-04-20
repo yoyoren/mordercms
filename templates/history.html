@@ -1,0 +1,78 @@
+{if $full_page}
+{include file="header.html"}
+{insert_scripts files="utils.js,listtable.js,datepicker/WdatePicker.js"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<!-- 订单搜索 Start -->
+<div class="form-div">
+    <form action="javascript:searchOrder();" name="searchForm">
+        <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+	
+        日期：<input name="bdate" type="text" value="{$filter.bdate}" onClick="javascript:WdatePicker();" readonly="true" size="10">&nbsp;至
+        <input type="text" name="sdate" value="{$filter.sdate}" onclick="javascript:WdatePicker();" readonly="readonly" size="10" />
+		批次:
+		<select name="turn">
+	       <option value="">全部</option>
+		   {html_options options="$turn"}
+		</select>
+		 订单号：<input type="text" name="order_sn" value="{$order_sn}" />
+   		 流水号：<input size="6" type="text" name="print_sn" value="{$print_sn}" maxlength="4" />：
+        <input type="submit" value="搜索" class="button" class="button" />
+    </form>
+</div>
+<!-- 订单搜索 End -->
+
+<div id="listDiv" class="list-div">{/if}
+    <table cellspacing='1' cellpadding='3' id="table" width="100%">
+        <tr id="attr">
+            <th>蛋糕</th>
+            <th>规格</th>
+            <th>数量</th>
+			<th>详情</th>
+        </tr>
+        {foreach from=$stat_list.stat item=list}
+        <tr bgcolor="#fffff" onMouseover="this.style.backgroundColor='#e9f6f8'" onMouseout="this.style.backgroundColor=''">
+            <td align="left" width="20%" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$list.goods_name}</td>
+            <td align="center" width="20%">{$list.goods_attr}&nbsp;磅</td>
+            <td align="center" width="20%">{$list.goods_sum}&nbsp;</td>
+		    <td align="center"><a href="cake_detail.php?act=list&id={$list.order_group}" target="_blank">详情</a></td>
+        </tr>
+        {foreachelse}
+        <tr><td align="center" colspan="4" style="color:#F0F">没有符合条件的查询记录！</td></tr>
+        {/foreach}
+		<tr style="background-color:#FF0">
+            <td align="center">合计：</td>
+            <td align="center">总磅数：<span style="color:#F00">{$stat_list.weight_total}</span>&nbsp;磅</td>
+            <td align="center">总数量：<span style="color:#F0F">{$stat_list.num_total}</span>&nbsp;个</td>
+			<td align="center">&nbsp;</td>
+        </tr>
+        <tr bgcolor="#ffffff"><td colspan="4" align="left" style="font-size:16px; margin-right:50px;"><br /></td></tr>
+    </table>
+    <table id="page-table" bgcolor="#ffffff" width="100%" cellspacing="0"><tr><td align="center" nowrap="true">{include file="page.htm"}</td></tr></table>{if $full_page}
+</div>
+
+
+
+
+
+{literal}<script language="JavaScript">
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+
+function searchOrder() { // Search order
+	var frm = document.forms['searchForm'].elements;
+	listTable.filter['bdate'] = Utils.trim(frm['bdate'].value);
+	listTable.filter['sdate'] = Utils.trim(frm['sdate'].value);
+	listTable.filter['turn']=Utils.trim(frm['turn'].value);
+	listTable.filter['order_sn']=Utils.trim(frm['order_sn'].value);
+	listTable.filter['print_sn']=Utils.trim(frm['print_sn'].value);
+	listTable.loadList();
+}
+</script>{/literal}
+{/literal}{include file="pagefooter.htm"}{/if}

@@ -1,0 +1,102 @@
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="utils.js,listtable.js,datepicker/WdatePicker.js"}
+<style>
+.red{
+color:#FF0000;}
+</style>
+<!-- 订单搜索 -->
+<div class="form-div">
+  <form action="javascript:searchOrder()" name="searchForm">
+    <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+    日期<input name="sdate" type="text" id="sdate" value="{$filter.sdate}" onClick="javascript:WdatePicker()" readonly="true" size="10" />
+	到<input name="edate" type="text" id="edate" value="{$filter.edate}" onClick="javascript:WdatePicker()" readonly="true" size="10" />
+    配送站<select name="station" onchange="change_station(this)">
+	       <option value="">全部</option>
+		   {foreach from=$stations item=sta}
+		   <option value="{$sta.station_id}" >{$sta.station_name}</option>
+		   {/foreach}
+	</select>
+	批次<select name="turn">
+	       <option value="">全部</option>
+		  <option value="1">第1批</option>
+		  <option value="2">第2批</option>
+		  <option value="3">第3批</option>
+		  <option value="4">第4批</option>
+	    </select>
+	包号<select name="route" id="route">
+	       <option value="">全部</option>
+	    </select>
+	<input type="submit" value="搜索" class="button" />
+  </form>
+</div>
+<div class="list-div" id="listDiv">
+{/if}
+<table cellspacing='1' cellpadding='3' id='list-table'>
+  <tr>
+    <th width="24%">订单数</th>
+    <th width="24%">蛋糕数</th>
+  </tr>
+  {foreach from=$order_list item=list}
+  <tr>
+    <td align="center">{$list.order}</td>
+    <td align="center">{$list.cakes}</td>
+ </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="2">没有记录！</td></tr>
+  {/foreach}
+</table>
+{if $full_page}
+  </div>
+<script language="JavaScript">
+
+/**
+* 搜索订单
+*/
+function searchOrder()
+{
+        listTable.filter['sdate']    = Utils.trim(document.forms['searchForm'].elements['sdate'].value);
+        listTable.filter['edate']    = Utils.trim(document.forms['searchForm'].elements['edate'].value);
+        listTable.filter['turn']     = Utils.trim(document.forms['searchForm'].elements['turn'].value);
+        listTable.filter['station']  = Utils.trim(document.forms['searchForm'].elements['station'].value);
+        listTable.filter['route']    = Utils.trim(document.forms['searchForm'].elements['route'].value);
+
+        listTable.filter['page']     = 1;
+        listTable.loadList();
+}
+function change_station(obj)
+{
+  var stn = obj.options[obj.selectedIndex].value;  
+  Ajax.call('fenjian_stat.php?act=stn', 'stn=' + stn , sresponse, "GET", "JSON");
+}
+function sresponse(result)
+{
+  var sel = document.getElementById('route');
+  sel.length = 1;
+
+  if (document.all)
+  {
+    sel.fireEvent("onchange");
+  }
+  else
+  {
+    var evt = document.createEvent("HTMLEvents");
+    evt.initEvent('change', true, true);
+    sel.dispatchEvent(evt);
+  }
+
+  if (result)
+  {
+    for (i = 0; i < result.length; i ++ )
+    {
+      var opt = document.createElement("OPTION");
+      opt.value = result[i].route_id;
+      opt.text  = result[i].route_name;
+      sel.options.add(opt);
+    }
+  }
+}
+</script>
+{/literal}
+{include file="pagefooter.htm"}
+{/if}

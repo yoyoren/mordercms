@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>改单系统</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body bgcolor="#DDEEF2" style='font-size:13px;'>
+<div style='line-height:40px;'><b>改单记录</b></div>
+<!--订单号搜索-->
+<div>
+<form action='change_order.php' method='post' onsubmit='return checksousuo(1)'>
+<table>
+	<tr>
+		<td width='120'>输入订单后五位：</td>
+		<td width='350'><input type='text' name='order_num' id='order_num'value='' />
+			<input type='hidden' name='step' value='sousuo'/></td>
+		<td width='120'><input type='submit' value='搜索'/> </td>
+	</tr>
+</table>
+</form>
+</div>
+<!--时间搜索-->
+<div>
+<form action='change_order.php' method='post' onsubmit='return checksousuo(2)'>
+<table>
+	<tr>
+		<td width='120'>输入搜索时间：</td>
+		<td width='350'>
+			<input type='text' name='order_time1' id='order_time1' value='' />-<input type='text' name='order_time2' id='order_time2' value='' />
+			<input type='hidden' name='step' value='shijian'/></td>
+		<td width='120'><input type='submit' value='搜索'/> </td>
+	</tr>
+</table>		  
+</form>
+</div>
+{if $act=='sousuo'}
+<table border='1' bordercolor='#80BDCB' cellspacing='0' cellpadding='0' width='1200' style='line-height:30px;background:white;'>
+	<tr style='font-weight:bold;'>
+		<td width='55'>订单号</td>
+		<td width='180'>修改时间</td>
+		<td width='55'>修改人</td>
+		<td width='418'>改前内容</td>
+		<td width='415'>改后内容</td>
+		<td width='70'>修改类型</td>
+	</tr>
+	{if $kong==kong}
+	<tr>
+		<td colspan='6'>搜索的订单不存在</td>
+	</tr>
+	{else}
+<!-- {foreach from=$result item=v} -->	
+	<tr onmouseover='changecolor({$v.log_id})' id={$v.log_id} onmouseout="changecolor2({$v.log_id})">
+		<td>{if $v.order_id ==''}&nbsp;{else}{$v.order_id}{/if}</td>
+		<td>{if $v.editime ==''}&nbsp;{else}{$v.editime}{/if}</td>
+		<td>{if $v.admin_id ==''}&nbsp;{else}{$v.admin_id}{/if}</td>
+		<td>{if $v.order_fore ==''}&nbsp;{else}{$v.order_fore}{/if}</td>
+		<td>{if $v.order_after ==''}&nbsp;{else}{$v.order_after}{/if}</td>
+		<td>{if $v.alter_type ==''}&nbsp;{else}{$v.alter_type}{/if}</td>
+	</tr>
+<!-- {/foreach} -->
+	{/if}
+</table>
+{elseif $act=='shijian'}
+<table border='1' bordercolor='#80BDCB' cellspacing='0' cellpadding='0' width='1200' style='line-height:30px;background:white;'>
+<tr style='font-weight:bold;'>
+		<td width='55'>订单号</td>
+		<td width='180'>修改时间</td>
+		<td width='55'>修改人</td>
+		<td width='418'>改前内容</td>
+		<td width='415'>改后内容</td>
+		<td width='70'>修改类型</td>
+	</tr>
+{if $kong1==kong1}
+	<tr>
+		<td colspan='6'>搜索的结果不存在</td>
+	</tr>
+	{else}
+<!-- {foreach from=$res item=v} -->
+	<tr onmouseover='changecolor({$v.log_id})' id={$v.log_id} onmouseout="changecolor2({$v.log_id})">
+		<td>{if $v.order_id ==''}&nbsp;{else}{$v.order_id}{/if}</td>
+		<td>{if $v.editime ==''}&nbsp;{else}{$v.editime}{/if}</td>
+		<td>{if $v.admin_id ==''}&nbsp;{else}{$v.admin_id}{/if}</td>
+		<td>{if $v.order_fore ==''}&nbsp;{else}{$v.order_fore}{/if}</td>
+		<td>{if $v.order_after ==''}&nbsp;{else}{$v.order_after}{/if}</td>
+		<td>{if $v.alter_type ==''}&nbsp;{else}{$v.alter_type}{/if}</td>
+	</tr>
+<!-- {/foreach} -->
+	{/if}
+</table>
+{else}
+<table border='1' bordercolor='#80BDCB' cellspacing='0' cellpadding='0' width='1200' style='line-height:30px;background:white;'>
+	<tr style='font-weight:bold;'>
+		<td width='55'>订单号</td>
+		<td width='180'>修改时间</td>
+		<td width='55'>修改人</td>
+		<td width='418'>改前内容</td>
+		<td width='415'>改后内容</td>
+		<td width='70'>修改类型</td>
+	</tr>
+<!-- {foreach from=$rows item=v} -->	
+	<tr onmouseover='changecolor({$v.log_id})' id={$v.log_id} onmouseout="changecolor2({$v.log_id})">
+		<td>{if $v.order_id ==''}&nbsp;{else}{$v.order_id}{/if}</td>
+		<td>{if $v.editime ==''}&nbsp;{else}{$v.editime}{/if}</td>
+		<td>{if $v.admin_id ==''}&nbsp;{else}{$v.admin_id}{/if}</td>
+		<td>{if $v.order_fore ==''}&nbsp;{else}{$v.order_fore}{/if}</td>
+		<td>{if $v.order_after ==''}&nbsp;{else}{$v.order_after}{/if}</td>
+		<td>{if $v.alter_type ==''}&nbsp;{else}{$v.alter_type}{/if}</td>
+	</tr>
+<!-- {/foreach} -->
+<tr>
+	<td colspan='6' align='center'><a href='change_order.php?currentPage=1'>首页</a>
+	<a href='change_order.php?currentPage={$prepage}'>上一页</a>
+	<a href='change_order.php?currentPage={$nextpage}'>下一页</a>
+	<a href='change_order.php?currentPage={$last}'>尾页</a></td>
+</tr>
+</table>
+{/if}
+</body>
+</html>
+<script language='javascript'>
+//检查订单号是否为空
+function checksousuo(k)
+{ 
+	var num=document.getElementById('order_num').value;
+
+    var time1=document.getElementById('order_time1').value;
+    var time2=document.getElementById('order_time2').value;
+	var pattern=/^\d{4}-\d{2}-\d{2}$/;
+	if(k==1)
+	{
+		if(num =='')
+		{
+			alert('请先输入五位订单号');
+			return false;
+		}
+	}
+	if(k==2)
+	{
+		
+		if(time1 =='')
+		{
+			alert('请输入起始时间');
+			return false;
+		}
+		if(!pattern.test(time1))
+		{
+			alert('时间格式不对');
+			return false;
+		}
+		if(time2 =='')
+		{
+			alert('请输入结束时间');
+			return false;
+		}
+		if(!pattern.test(time2))
+		{
+			alert('时间格式不对');
+			return false;
+		}
+	}
+}
+function changecolor(n)
+{
+	 document.getElementById(n).style.background = '#DDEEF2';
+}
+function changecolor2(m)
+{
+	document.getElementById(m).style.background = 'white';
+}
+</script>

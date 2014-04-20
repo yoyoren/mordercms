@@ -1,0 +1,54 @@
+{include file="header.html"}
+{insert_scripts files="utils.js,transport.js,validator.js,datepicker/WdatePicker.js"}
+<div style="position:fixed;_position:absolute;width:100%;background:#ddeef2">
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<div class="form-div">
+<form  action="print_stat.php?act=list" name="searchForm" method="POST" >
+送货日期<input name="bdate" value="{$bdate}" type="text" onFocus="javascript:WdatePicker()" style="width:70px"/>
+<select name="status"><option value="9">全部</option><option value="1" {if $status eq 1}selected="selected" {/if}>确认</option><option {if $status eq 2}selected="selected" {/if} value="2">取消</option></select>
+<input type="submit" class="button" value="提交" />
+</form>
+</div>
+<div style="margin:0px 10px 0 10px">
+<table width="100%" border="0" >
+<tr bgcolor=#FFFFFF><td colspan="8">共计{$count}条</td></tr>
+    <tr>
+		<th  width="130">送货日期</th>
+		<th width="250">订单号</th>
+        <th width="80">状态</th>
+		<th width="100">流水号</th>
+		<th width="160">配送打印时间</th>
+        <th width="160">生产打印时间</th>
+		<th width="103">配送打印操作人</th>
+        <th width="110">生产打印操作人</th>
+	</tr>
+</table>
+</div>
+</div>
+<div style="height:140px;width:100%"></div>
+<div class="list-div" id="listDiv">
+
+<table  cellpadding='3' cellspacing=1  border=0>
+		<!--{foreach from=$orders item=list}-->
+		<tr  bgcolor="#ffffff" onMouseOver="this.style.backgroundColor='#e9f6f8'" onMouseOut="this.style.backgroundColor=''">
+				<td width="130">{$list.bdate}</td>
+				<td width="250">{$list.order_sn}</td>
+                <td width="80">{$list.order_status}</td>
+				<td width="100">{$list.print_sn}</td>
+				<td width="160">{$list.ptime}</td>
+                <td width="160">{$list.stime}</td>
+				<td width="103">{$list.sname2}</td>
+                <td width="110">{$list.sname}</td>
+		</tr>
+		<!--{/foreach}-->
+</table>
+
+</div>
+</body>
+</html>

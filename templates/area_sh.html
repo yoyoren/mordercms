@@ -1,0 +1,56 @@
+{include file="header.html"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<div class="form-div">
+<form name="form1" method="post" action="area.php?act=batchAdd" enctype="multipart/form-data" >
+<input name="upfile" type="file" value="" /><input name="batchAdd" value="批量导入"  type="submit"/>(文件格式为：txt,编码：UTF-8)
+</form>
+</div>
+<div class="main-div">
+    <form name="theForm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+        <table width="100%">
+            <tr>
+                <td class="label">城区名称：</td>
+                <td><input type="text" name="area" maxlength="20" value="{$route_info.area}" /></td>
+            </tr>
+            <tr>
+                <td class="label">地址点名称：</td>
+                <td><input type="text" name="area_name" maxlength="20" value="{$route_info.road}" /></td>
+            </tr>
+            <tr>
+                <td class="label">奇数最大：</td>
+                <td><input type="text" name="omax" value="{$route_info.omax}" ></td>
+            </tr>
+            <tr>
+                <td class="label">奇数最小：</td>
+                <td><input type="text" name="omin" value="{$route_info.omin}" ></td>
+            </tr>
+            <tr>
+                <td class="label">偶数最大：</td>
+                <td><input type="text" name="emax" value="{$route_info.emax}" ></td>
+            </tr>
+            <tr>
+                <td class="label">偶数最小：</td>
+                <td><input type="text" name="emin" value="{$route_info.emin}" ></td>
+            </tr>
+            <tr>
+            	<td class="label">路区编号：</td>
+                <td><select name="route_id"><option value="">-请选择-</option>{html_options options=$route_list selected=$route_info.route_id}</select></td>
+            </tr>
+            <tr>
+            <td colspan="2" align="center">
+            <input type="submit" value="提交信息" class="button" />&nbsp;&nbsp;&nbsp;
+            <input type="reset" value="重置信息" class="button" />
+            <input type="hidden" name="act" value="{$form_act}" /><input type="hidden" name="id" value="{$route_info.id}" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

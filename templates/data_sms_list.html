@@ -1,0 +1,63 @@
+{if $full_page}
+{include file="header.html"}
+{insert_scripts files="utils.js,transport.js,validator.js,listtable.js"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<div class="form-div">
+	<form action="javascript:searchRecord()"  name="searchForm">
+    <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+    姓名<input type="text" name="name" value='' />
+  电话<input type="text" name="phone" value="" />
+  卡号<input type="text" name="bonus_id" value="" />
+  <input type="submit" name="sub" value="搜索" class="button" />
+    </form>
+</div>
+<div class="list-div" id="listDiv" >
+{/if}
+<form name="form1" method="post" action="data_sms.php?act=sendSms" enctype="multipart/form-data" >
+<table  width="100%" align="center" border="0" cellspacing='1' cellpadding='3' id='list-table' >
+	<tr>
+		<th>ID</th><th>姓名</th><th>电话</th><th>卡号</th><th>状态</th>
+	</tr>
+	{foreach from=$list item=l}
+	<tr bgcolor="#ffffff" align="center" onMouseover="this.style.backgroundColor='#e9f6f8'" onMouseout="this.style.backgroundColor=''">
+		<td>{$l.id}</td><td>{$l.name}</td><td>{$l.phone}</td><td>{$l.bonus_id}</td><td>{if $l.status eq 2}<font color="red">已确认</font>{else}未确认{/if}  <a href="javascript:listTable.remove('{$l.id}','确认删除吗？','delete')">删除</a></td>
+	</tr>
+	{/foreach}
+</table>
+<!-- 分页 -->
+<table id="page-table" bgcolor="#ffffff" cellspacing="0" width="100%">
+  <tr >
+    <td align="center"  nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+</form>
+{if $full_page}
+</div>
+<script language="JavaScript">
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+
+{foreach from=$filter item=item key=key}
+	listTable.filter.{$key} = '{$item}';
+{/foreach}
+{literal}
+function searchRecord(){
+	listTable.filter['name'] = Utils.trim(document.forms['searchForm'].elements['name'].value);
+	listTable.filter['phone']= Utils.trim(document.forms['searchForm'].elements['phone'].value);
+	listTable.filter['bonus_id']= Utils.trim(document.forms['searchForm'].elements['bonus_id'].value);
+	
+	listTable.loadList();
+}
+{/literal}
+</script>
+</body>
+</html>
+{/if}

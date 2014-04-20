@@ -1,0 +1,41 @@
+{if $full_page}
+{include file="header.html"}
+{insert_scripts files="utils.js,listtable.js,datepicker/WdatePicker.js"}
+<div class="text_title">
+<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+<div style="clear:both"></div>
+</div>
+<div class="list-div" id="listDiv">
+{/if}
+
+<table cellspacing='1' cellpadding='3' id='list-table' width="100%">
+  <tr>
+    <th>角色名</th>
+    <th>角色描述</th>
+    <th>操作</th>
+  </tr>
+  {foreach from=$admin_list item=list}
+  <tr bgcolor="#ffffff" onMouseover="this.style.backgroundColor='#e9f6f8'" onMouseout="this.style.backgroundColor=''">
+    <td class="first-cell" >{$list.role_name}</td>
+    <td class="first-cell" >{$list.role_describe}</td>
+    <td align="center">
+      <a href="role.php?act=edit&id={$list.role_id}" title="{$lang.edit}">编辑</a>&nbsp;&nbsp;
+      <a href="javascript:;" onclick="listTable.remove({$list.role_id}, '确实要删除吗？')" title="{$lang.remove}">删除</a></td>
+  </tr>
+  {/foreach}
+</table>
+
+{if $full_page}
+</div>
+<script type="text/javascript" language="JavaScript">
+  {literal}
+  onload = function()
+  {
+    
+    //startCheckOrder();
+  }
+  {/literal}
+</script>
+{include file="footer.html"}
+{/if}

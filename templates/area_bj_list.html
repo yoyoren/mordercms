@@ -1,0 +1,76 @@
+{if $full_page}
+{include file="header.html"}
+{insert_scripts files="utils.js,listtable.js"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<!-- 订单搜索 Start -->
+<div class="form-div">
+    <form action="javascript:searchRoute();" name="searchForm">
+    <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+    地址：<input name="area" type="text" id="area" size="10">
+    编号：<input name="code" type="text" id="code" size="10">
+	站点：<select name="stan" id="stan" ><option value="0">全部</option>{html_options options=$station_list}</select>
+    城区：<select name="city" id="city"><option value="0">全部</option>{html_options options=$region_list}</select>
+    费用：<input type="text" name="fee"  size="6" /><input type="submit" value="开始查询" class="button" />
+    </form>
+</div>
+<!-- 订单搜索 End -->
+
+<!-- 订单列表 Start -->
+<form method="post" action="" name="listForm" onsubmit="return check();">
+    <div class="list-div" id="listDiv">{/if}
+        <table cellpadding="3" cellspacing="1" width="100%">
+        <tr>
+            <th><input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" /><a href="javascript:listTable.sort('address_id', 'DESC'); ">ID</a></th>
+            <th>地址点名称</th>
+            <th>路区编号</th>
+            <th>配送站</th>
+            <th>城区</th>
+            <th>费用</th>
+            <th>操作</th>
+        <tr>
+        {foreach from=$area_list item=list}
+        <tr bgcolor="#ffffff" onMouseover="this.style.backgroundColor='#e9f6f8'" onMouseout="this.style.backgroundColor=''">
+            <td valign="top" nowrap="nowrap"><input type="checkbox" name="checkboxes" value="{$list.route_id}" />{$list.route_id}</td>
+            <td >&nbsp;{$list.area_name}</td>
+            <td align="center" >{$list.route_name}</td>
+            <td align="center" >{$list.station_name}</td>
+            <td align="center" valign="top" nowrap="nowrap">{$list.city}</td>
+            <td align="center" valign="top" nowrap="nowrap">{$list.fee}</td>
+            <td align="center">
+                <a href="area.php?act=edit&id={$list.area_id}">编辑</a>
+                <a href="javascript:;" onclick="listTable.remove({$list.area_id}, '您确定要删除此地址点吗？', 'remove')">删除</a>
+            </td>
+        </tr>
+        {/foreach}
+        </table>
+        <table bgcolor="#ffffff" id="page-table" cellspacing="0" width="100%"><tr><td align="center" nowrap="true">{include file="page.htm"}</td></tr></table>{if $full_page}
+    </div>
+</form>
+<!-- 订单列表 End -->
+
+<script language="JavaScript">
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+{literal}
+
+function searchRoute() { // Search area
+	var frm = document.forms['searchForm'].elements;
+	listTable.filter['area'] = Utils.trim(frm['area'].value);
+	listTable.filter['code'] = Utils.trim(frm['code'].value);
+	listTable.filter['stan'] = Utils.trim(frm['stan'].value);
+	listTable.filter['city'] = Utils.trim(frm['city'].value);
+	listTable.filter['fee'] = Utils.trim(frm['fee'].value);
+	listTable.filter['page'] = 1;
+	listTable.loadList();
+}
+</script>{/literal}{/if}

@@ -1,0 +1,91 @@
+<!-- $Id: bonus_type.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+
+{if $full_page}
+{include file="pageheader.htm"}
+<h1>管理员：{$admin_name}</h1>
+{insert_scripts files="utils.js,listtable.js"}
+
+<form method="post" action="" name="listForm">
+<!-- start bonus_type list -->
+
+<div class="list-div" id="listDiv">
+{/if}
+
+  <table cellpadding="3" cellspacing="1">
+    <tr>
+      <th>编号</th>
+      <th>起始编号</th>
+      <th>截止编号</th>
+      <th><a href="javascript:listTable.sort('type_name'); ">礼金卡昵称</a>{$sort_type_name}</th>
+      <!-- <th><a href="javascript:listTable.sort('type_money'); ">面值金额</a>{$sort_type_money}</th> -->
+      <th>发放数量</th>
+      <th>生效数量</th>
+      <th>使用数量</th>
+     <!--  <th><a href="javascript:listTable.sort('mc_sdate'); ">起始日期</a></th>
+      <th><a href="javascript:listTable.sort('mc_sdate'); ">失效日期</a></th>   -->      
+      <th>维护人</th>
+      <th>操作</th>
+    </tr>
+    {foreach from=$type_list item=type}
+      
+    <tr>
+      <td align="right">{$type.sn}</td>
+      <td align="right">{$type.mc_scardid}</td>
+      <td align="right">{$type.mc_ecardid}</td>
+      <td class="first-cell">{$type.mc_name|escape:html}({$type.mc_cdate})</td>
+      <!-- <td align="right">{$type.mc_money}</td> -->
+      <td align="right"><span>{$type.send_count}</span></td>
+      <td align="right">{$type.affirm_count}</td>
+      <td align="right">{$type.use_count}</td>      
+       <!--  <td align="right">{$type.mc_sdate}</td>
+      <td align="right">{$type.mc_edate}</td>   -->          
+      <td align="right">{$type.mc_cname}</td>
+      <td align="right">        
+        <a href="moneycard1.php?act=gen_excel&tid={$type.mc_id}">导出</a> 
+        <a href="moneycard1.php?act=get_moneycards_list&moneycard_type={$type.mc_id}">查看</a>
+      </tr>
+      
+      {foreachelse}
+    <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+      {/foreach}
+    </table>
+    
+      <table cellpadding="4" cellspacing="0">
+    <tr>
+      <td align="right">{include file="page.htm"}</td>
+    </tr>
+  </table> 
+
+{if $full_page}
+</div>
+<!-- end bonus_type list -->
+</form>
+
+<script type="text/javascript" language="JavaScript">
+<!--
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+  listTable.query = "query";
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+     // 开始检查订单
+     startCheckOrder();
+  }
+  {/literal}
+//-->
+function searchMoneycard()
+{
+	listTable.filter['mc_enable'] = document.forms['searchForm'].elements['type'].value;
+	listTable.filter['flag']=document.forms['searchForm'].elements['flag'].value;
+	listTable.loadList();
+}
+
+</script>
+{include file="pagefooter.htm"}
+{/if}

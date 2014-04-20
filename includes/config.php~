@@ -1,0 +1,31 @@
+﻿<?php
+
+//写操作服务器配置
+$my_db_host_write   = "210.51.166.148";
+$my_db_name_write   = "shop";
+$my_db_user_write   = "yucheng";
+$my_db_pass_write   = "yucheng";
+
+
+//读操作服务器配置
+$my_db_host_read   = "210.51.166.148";
+$my_db_name_read   = "shop";
+$my_db_user_read   = "yucheng";
+$my_db_pass_read   = "yucheng";
+
+//$my_db_host_read   = "116.213.192.110";
+//$my_db_name_read   = "shop";
+//$my_db_user_read   = "cake21";
+//$my_db_pass_read   = "cakes211";
+
+/*$my_db_host_read   = "116.213.192.79";
+$my_db_name_read   = "shop";
+$my_db_user_read   = "remote";
+$my_db_pass_read   = "21cakemysql";*/
+
+$timezone    = "PRC";
+$cookie_path    = "/";
+$cookie_domain    = "";
+$session = "1440";
+define('EC_CHARSET','utf-8');
+?>

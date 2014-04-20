@@ -1,0 +1,189 @@
+{include file="header.html"}
+{insert_scripts files="datepicker/WdatePicker.js"}
+<div class="text_title">
+<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+<div style="clear:both"></div>
+</div>
+<div class="main-div">
+<form name="theForm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+<table width="100%">
+  <tr>
+    <td align="center">
+	配送站选择<select name="station" id="station" onchange="change_employee(this)">
+	       <option value="">全部</option>
+		   {foreach from=$stations item=sta}
+		   <option value="{$sta.station_id}" {if $Current}selected="selected"{/if}>{$sta.station_name}</option>
+		   	{/foreach}
+	  </select>
+	  	起始日期<input type="text" id="plan_sdate" name="plan_sdate" value="{$plan.sdate}"  onclick="javascript:WdatePicker()" size="10"/>
+	    截止日期<input type="text" id="plan_edate" name="plan_edate" value="{$plan.edate}"  onclick="javascript:WdatePicker()" size="10"/></td>
+  </tr>
+  <tr>
+	  <td align="center">
+		<table style="width:300px" cellspacing="0">
+				<tr>
+				<td valign="top">
+				  <input type="hidden" name="plan_list" id="plan_list" />
+				  <select name="employee" id="employee" multiple="true" style="width: 120px; height: 180px">
+			  {foreach from=$employee_list item=employee}
+			  <option value="{$employee.employee_id}"{if $employee.employee_id eq $plan.employee_id}selected{/if}>{$employee.employee_name}</option>
+			  {/foreach}
+				  </select></td>
+				<td align="center">
+				 <input type="button" class="button" value="全部添加" onclick="addAllItem(theForm.employee,theForm.plans);" />
+				 <input type="button" class="button" value="添    加"     onclick="addItem(theForm.employee,theForm.plans);" /><br />
+				 <input type="button" class="button" value="移    除"     onclick="delItem(theForm.plans);" />
+				 <input type="button" class="button" value="全部移除" onclick="delAllItem(theForm.plans);" /></td>
+				<td>
+				  <select id="plans" name="plans" size="15" multiple="true" style="width:120px; height: 180px">
+				   </select></td>
+				</tr>
+		</table>
+	  </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <input type="submit" value="提交" class="button" />
+	 &nbsp;&nbsp;&nbsp;
+      <input type="reset" value="重置" class="button" />
+      <input type="hidden" name="act" value="{$form_act}" />
+	  </td>
+  </tr>
+</table>
+</form>
+</div>
+<script type="text/javascript">
+function change_employee(obj)
+{
+  var parent = obj.options[obj.selectedIndex].value;  
+  //alert(parent);
+  Ajax.call('delivery_plan.php?act=employee', 'station=' + parent , show_response, "GET", "JSON");
+}
+function show_response(result)
+{
+  var sel = document.getElementById('employee');
+
+  sel.length = 0;
+
+  if (document.all)
+  {
+    sel.fireEvent("onchange");
+  }
+  else
+  {
+    var evt = document.createEvent("HTMLEvents");
+    evt.initEvent('change', true, true);
+    sel.dispatchEvent(evt);
+  }
+
+  if (result)
+  {
+  //alert(result.regions.length);   
+    for (i = 0; i < result.length; i ++ )
+    {
+      var opt = document.createElement("OPTION");
+      opt.value = result[i].employee_id;
+      opt.text  = result[i].employee_name;
+
+      sel.options.add(opt);
+    }
+  }
+  
+  var ItemList = document.forms['theForm'].plans;
+  for (var x = ItemList.length - 1; x >= 0; x -- )
+  {
+      ItemList.options[x] = null;
+  }
+}
+
+function addItem(src, dst)
+{
+  for (var x = 0; x < src.length; x ++ )
+  {
+    var opt = src.options[x];
+    if (opt.selected && opt.value != '')
+    {
+      var newOpt = opt.cloneNode(true);
+      newOpt.className = '';
+      newOpt.text = newOpt.innerHTML.replace(/^\s+|\s+$|&nbsp;/g, '');
+      dst.appendChild(newOpt);
+    }
+  }
+
+  src.selectedIndex = -1;
+}
+
+function delItem(ItemList)
+{
+  for (var x = ItemList.length - 1; x >= 0; x -- )
+  {
+    var opt = ItemList.options[x];
+    if (opt.selected)
+    {
+      ItemList.options[x] = null;
+    }
+  }
+}
+function addAllItem(src, dst)
+{
+  for (var x = 0; x < src.length; x ++ )
+  {
+    var opt = src.options[x];
+    if (opt.value != '')
+    {
+      var newOpt = opt.cloneNode(true);
+      newOpt.className = '';
+      newOpt.text = newOpt.innerHTML.replace(/^\s+|\s+$|&nbsp;/g, '');
+      dst.appendChild(newOpt);
+    }
+  }
+
+  src.selectedIndex = -1;
+}
+
+function delAllItem(ItemList)
+{
+  for (var x = ItemList.length - 1; x >= 0; x -- )
+  {
+      ItemList.options[x] = null;
+  }
+}
+function joinItem(ItemList)
+{
+  var OptionList = new Array();
+  for (var i = 0; i < ItemList.length; i ++ )
+  {
+    OptionList[OptionList.length] =  ItemList.options[i].value;
+  }
+  return OptionList.join(",");
+}
+function validate()
+{
+  document.getElementById('plan_list').value = joinItem(document.getElementById('plans'));
+  
+  var frm = document.forms['theForm'].elements;
+  if(!frm['station'].value)
+  {
+     alert('请选择配送站!');
+	 return false;
+  }
+  if(!frm['plan_sdate'].value)
+  {
+     alert('请选择排班起始日期!');
+	 return false;
+  }
+  if(!frm['plan_edate'].value)
+  {
+     alert('请选择排班截止日期!');
+	 return false;
+  }
+  if(!frm['plan_list'].value)
+  {
+     alert('请至少添加一个配送员!');
+	 return false;
+  }
+}
+
+</script>
+{include file="pagefooter.htm"}

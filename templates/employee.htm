@@ -1,0 +1,107 @@
+{include file="header.html"}
+{insert_scripts files="utils.js,transport.js,validator.js"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<div class="main-div">
+    <form name="theForm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+        <table width="100%">
+            <tr>
+                <td class="label">部门：</td>
+                <td>
+                    <select name="dept">	  
+                        <option value="1" {if $employee.dept_id eq '1'}selected{/if}>配送部</option>
+                        <!-- <option value="2" {if $employee.dept_id eq '2'}selected{/if}>财务部</option> -->
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">站点：</td>
+                <td>
+                    <select name="station" id="station">
+                    	<option value="" {if $sel eq 1} disabled="disabled" {/if}>-请选择-</option>
+                    	{foreach from=$stations item=s}
+                    	<option value="{$s.station_id}" {if $sel eq 1 || $employees.station_id eq $s.station_id} selected="selected" {/if}>{$s.station_name}</option>
+                    	{/foreach}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">岗位：</td>
+                <td>
+                    <select name="posts">
+                        <option value="1"{if $employees.level eq '1'}selected ="selected"{/if}>配送员</option>	  
+                        <!-- <option value="2"{if $employees.level eq '2'}selected ="selected"{/if}>调度员</option>
+                         <option value="3"{if $employees.level eq '3'}selected ="selected"{/if}>收银员</option>-->
+                        <option value="4"{if $employees.level eq '4'}selected ="selected"{/if}>站长</option>
+                        <option value="5"{if $employees.level eq '5'}selected ="selected"{/if}>副站长</option> 
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">姓名：</td>
+                <td><input type="text" name="name" value="{$employees.name}" /></td>
+            <tr>
+                <td class="label">电话：</td>
+                <td><input type="text" name="office_phone" value="{$employees.office_phone}" /></td>
+            </tr>
+            <tr>
+                <td class="label">手机：</td>
+                <td><input type="text" name="office_mobile" value="{$employees.office_mobile}" /></td>
+            </tr>
+            
+            <tr>
+                <td class="label"><input type="submit" value="提交内容" class="button" /></td>
+                <td>
+                	&nbsp;&nbsp;&nbsp;<input type="reset" value="重置" class="button" />
+                    <input type="hidden" name="id" value="{$id}" />
+                    <input type="hidden" name="act" value="{$form_act}" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+function switchSite(obj, station) { // Switch the site
+	var city_code = obj.options[obj.selectedIndex].value;
+	Ajax.call('employee.php?is_ajax=1&act=site', 'city_code=' + city_code + '&station=' + station, responseSwitchSite, 'GET', 'JSON');
+}
+
+function responseSwitchSite(result) { // The switchSite function callback method
+	var sel = document.getElementById(result.target);
+	sel.length = 1;
+	sel.selectedIndex = 0;
+
+	if (document.all) { // Processing onchange() event of compatibility
+		sel.fireEvent('onchange');
+	} else {
+		var evt = document.createEvent('HTMLEvents');
+		evt.initEvent('change', true, true); // Initializes the newly created evt object's properties
+		sel.dispatchEvent(evt);
+	}
+
+	if (result.site) {
+		for (var i = 0; i < result.site.length; i++) {
+			var opt = document.createElement('OPTION');
+			opt.value = result.site[i].station_id;
+			opt.text = result.site[i].station_name;
+			
+//			if ({$station_id} == result.site[i].station_id)			opt.selected = true;
+			sel.options.add(opt);
+		}
+	}
+}
+
+function validate() { // Verify the form frame of data
+	var validator = new Validator('theForm');
+	validator.required('station', '站点不能为空！');
+	validator.required('name', '姓名不能为空！');
+	validator.required('office_mobile', '手机号不能为空！');
+	return validator.passed();
+}
+</script>{include file="pagefooter.htm"}

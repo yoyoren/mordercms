@@ -1,0 +1,100 @@
+{if $full_page}
+{include file="header.html"}
+{insert_scripts files="utils.js,listtable.js,transport.js"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<!-- 订单搜索 Start -->
+<div class="form-div">
+    <form action="javascript:searchAddr();" name="searchForm">
+        <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+        城市：<select name="city_code" onchange="switchSite(this, 'stations');" {if $Current} disabled="disabled"{/if}>
+        	<option value="">-全部-</option>{html_options options=$city_list selected=$city}
+        </select>
+   配送站<select name="stations"  id="stations">
+	       <option value="" {if $Current} disabled="disabled"{/if}>全部</option>
+		   {foreach from=$stations item=sta}
+		   <option value="{$sta.station_id}" {if $Current}selected="selected"{/if}>{$sta.station_name}</option>
+		   	{/foreach}
+	</select>
+        职工姓名：<input name="employee" type="text" id="employee" size="15">
+        <input type="submit" value="搜索" class="button" />
+    </form>
+</div>
+<!-- 订单搜索 End -->
+
+<!-- 订单列表 Start -->
+<div class="list-div" id="listDiv">{/if}
+	<table cellspacing='1' cellpadding='3' id='list-table' width="100%">
+        <tr>
+            <th width="8%">姓名</th>
+            <th width="7%">部门名称</th>
+            <th width="7%">部门分组</th>
+            <th width="15%">职务岗位</th>
+            <th width="5%">操作</th>
+        </tr>
+        {foreach from=$employee_list item=list}
+        <tr bgcolor="#ffffff" onMouseover="this.style.backgroundColor='#e9f6f8'" onMouseout="this.style.backgroundColor=''">
+            <td align="center" >{$list.name}</td>
+            <td align="center">{if $list.dept_id eq '1'}配送部{else}财务部{/if}</td>
+            <td align="center" >{$list.station_name}</td>
+            <td align="center" >{if $list.level eq '1'}配送员{elseif $list.level eq '2'}调度员{elseif $list.level eq '3'}收银员{elseif $list.level eq '4'}站长{else}副站长{/if}</td>
+            <td align="center">
+                <a href="employee.php?act=edit&id={$list.id}">修改</a>
+                <a href="javascript:;" onclick="listTable.remove({$list.id}, '您确定要删除此人吗？', 'remove')">删除</a>
+            </td>
+        </tr>
+        {/foreach}
+	</table>
+	<table id="page-table" cellspacing="0" bgcolor="#ffffff" width="100%"><tr><td align="center" nowrap="true">{include file="page.htm"}</td></tr></table>{if $full_page}
+</div>
+<!-- 订单列表 End -->
+
+<script language="JavaScript">
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = "{$item}";
+{/foreach}
+{literal}
+function switchSite(obj, station) { // Switch the site
+	var city_code = obj.options[obj.selectedIndex].value;
+	Ajax.call('employee.php?is_ajax=1&act=site', 'city_code=' + city_code + '&station=' + station, responseSwitchSite, 'GET', 'JSON');
+}
+
+function responseSwitchSite(result) { // The switchSite function callback method
+	var sel = document.getElementById(result.target);
+	sel.length = 1;
+	sel.selectedIndex = 0;
+
+	if (document.all) { // Processing onchange() event of compatibility
+		sel.fireEvent('onchange');
+	} else {
+		var evt = document.createEvent('HTMLEvents');
+		evt.initEvent('change', true, true); // Initializes the newly created evt object's properties
+		sel.dispatchEvent(evt);
+	}
+
+	if (result.site) {
+		for (var i = 0; i < result.site.length; i++) {
+			var opt = document.createElement('OPTION');
+			opt.value = result.site[i].station_id;
+			opt.text = result.site[i].station_name;
+			sel.options.add(opt);
+		}
+	}
+}
+
+function searchAddr() { // Search address
+	var frm = document.forms['searchForm'].elements;
+	listTable.filter.employee = Utils.trim(frm['employee'].value);
+	listTable.filter.stations = Utils.trim(frm['stations'].value);
+	listTable.filter.city_code = frm['city_code'].value;
+	listTable.filter.page = 1;
+	listTable.loadList();
+}
+</script>{/literal}{include file="pagefooter.htm"}{/if}

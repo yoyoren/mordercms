@@ -1,0 +1,64 @@
+{include file="header.html"}
+{insert_scripts files="utils.js,transport.js,validator.js"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<div class="main-div">
+<form name="theForm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+    <table width="100%">
+        <tr>
+            <td class="label">站点名称：</td>
+            <td><input type="text" name="station_name" maxlength="20" value="{$station.station_name}" size="34"/>{$lang.require_field}</td>
+        </tr>
+        <tr>
+            <td class="label">站点编号：</td>
+            <td><input type="text" name="station_code" value="{$station.station_code}" size="34" />{$lang.require_field}</td>
+        </tr>
+        <tr>
+            <td class="label">站点地址：</td>
+            <td><input type="text" name="address" maxlength="32" value="{$station.address}" size="34" />{$lang.require_field}</td>
+        </tr>
+        <tr>
+            <td class="label">是否自提：</td>
+            <td><input type="checkbox" name="ziti" {if $station.ziti eq 1}checked="checked"{/if} value="1" />{$lang.require_field}</td>
+        </tr>
+        <tr>
+        	<td class="label">站点所在城市：</td>
+            <td>
+            	<select name="city_code">
+                	<option value="">-请选择-</option>{html_options options=$city selected=$city_code}
+                </select>
+            </td>
+        </tr>
+        {if $form_act eq 'update'}
+        <tr>
+            <td class="label">是否在用</td>
+            <td><input type="checkbox" name="flag" {if $station.flag eq '1'}checked="checked"{/if} value="1" />{$lang.require_field}</td>
+        </tr>
+        {/if}
+        <tr>
+        <td colspan="2" align="center">
+            <input type="submit" value="提交信息" class="button" />&nbsp;&nbsp;&nbsp;
+            <input type="reset" value="重置信息" class="button" />
+            <input type="hidden" name="act" value="{$form_act}" /><input type="hidden" name="id" value="{$station.station_id}" /></td>
+        </tr>
+    </table>
+</form>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+function validate() {
+	var validator = new Validator('theForm');
+	validator.required('station_name', '请填写站点名称！');
+	validator.required('station_code', '请填写站点编号！');
+	validator.required('address', '请填写站点地址！');
+	validator.required('city_code', '请填写站点所在城市！');
+	return validator.passed();
+}
+</script>

@@ -1,0 +1,176 @@
+{include file="header.html"}
+{insert_scripts files="datepicker/WdatePicker.js"}
+<div class="text_title">
+<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+{if $action_link}
+<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+{/if}
+<div style="clear:both"></div>
+</div>
+<!--container--begin-->
+<div class="form-div">
+    <!--search-box--begin-->
+    <form name="form1" action="" method="get">
+    <div id="search_box" class="ziti1">
+    送货日期：
+ <input name="datetime" type="text" id="sdate" value="{$datetime}" onClick="javascript:WdatePicker()" readonly="true" size="10" />
+    订单号：<input type="text" name="order_sn" value="{$order_sn}" />
+    流水号：<input size="6" type="text" name="print_sn" value="{$print_sn}" maxlength="4" />
+    <input type="submit" name="sub" class="button" value="查询" /> <input type="hidden" value="query" name="act" />
+     </div>
+     </form>
+    <!--search-box--end-->
+    
+</div>
+<!--pagebody--begin-->
+    <div class="list-div" id="listDiv">
+   	  <table width="100%" border="0" cellspacing="1" cellpadding="5">
+<tr  class="ziti1" >
+    			<th >送货日期</th>
+    			<th>订单号</th>
+    			<th>流水号</th>
+    			<th>配送打印时间</th>
+    			<th>生产打印时间</th>
+  			</tr>
+  			<tr bgcolor="#ffffff" align="center">
+   			  <td>{$arr.best_time}</td>
+   			  <td>{$arr.order_sn}</td>
+   			  <td>{$arr.print_sn}</td>
+   			  <td>{$arr.ptime}</td>
+   			  <td>{$arr.stime}</td>
+  			</tr>
+		</table>
+		<table width="100%" border="0" cellspacing="1" cellpadding="5">
+			<tr  >
+            	<th colspan="4" class="ziti3">基本信息</th>
+            </tr>
+            {if $arr}
+            <tr bgcolor="#FFFFFF">
+            	<td width="7%" align="right" class="ziti2" >工号</td>
+                <td colspan="3" class="ziti1">{if $arr.remark=='9999'}web{else}{$arr.remark}{/if}</td>
+          </tr>
+            <tr bgcolor="#FFFFFF">
+           	  <td align="right" class="ziti2">订单号</td>
+                <td width="18%" class="ziti1">{$arr.order_sn}</td>
+              <td width="7%" align="right" class="ziti2">订单状态</td>
+                <td class="ziti1">
+                {if $arr.order_status=='0'}
+                	未确认
+                {elseif $arr.order_status=='1'}
+                	已确认
+                {elseif $arr.order_status=='2'}
+                	取消
+                {elseif $arr.order_status=='3'}
+                	无效
+                {elseif $arr.order_status=='4'}
+                	退订
+                {/if}
+                {if $arr.pay_status=='0'}
+                	未付款
+                {elseif $arr.pay_status=='1'}
+                	付款中
+                {elseif $arr.pay_status=='2'}
+                	已付款
+                {/if}
+                </td>
+          </tr>
+            
+            <tr bgcolor="#FFFFFF">
+           	  <td align="right" class="ziti2">订货人</td>
+                <td class="ziti1">{$arr.orderman}</td>
+                <td align="right" class="ziti2">下单时间</td>
+                <td class="ziti1">{$arr.time1|date}</td>
+          </tr>
+            <tr bgcolor="#FFFFFF">
+           	  <td align="right" class="ziti2">支付方式</td>
+                <td class="ziti1">{$arr.pay_name}</td>
+                <td align="right" class="ziti2">送货时间</td>
+                <td class="ziti1">{$arr.best_time}</td>
+          </tr>
+            <tr bgcolor="#FFFFFF">
+           	  <td align="right" class="ziti2">收货人</td>
+              <td colspan="3" class="ziti1">{$arr.consignee}</td>
+          </tr>
+            <tr bgcolor="#FFFFFF">
+           	  <td align="right" class="ziti2">送货地址</td>
+              <td colspan="3" class="ziti1">{$arr.address}</td>
+          </tr>
+            <tr bgcolor="#FFFFFF">
+           	  <td align="right" class="ziti2">收款地址</td>
+              <td colspan="3" class="ziti1">{$arr.money_address}</td>
+          </tr>
+            <tr bgcolor="#FFFFFF">
+           	  <td align="right" class="ziti2">批次</td>
+                <td class="ziti1">
+                	{if $arr.turn}
+                	第{$arr.turn}批
+                	{/if}
+                </td>
+                <td align="right" class="ziti2">配送站</td>
+                <td class="ziti1">
+                {if $arr.station_name}
+                {$arr.station_name}-{$arr.route_code}
+                {/if}
+                </td>
+          </tr>
+            <tr bgcolor="#FFFFFF">
+           	  <td align="right" class="ziti2">调度状态</td>
+                <td class="ziti1">
+                {if $arr.sta1=='0'}
+                	调度中
+                {elseif $arr.sta1=='1'}
+                	完成
+                {/if}
+                </td>
+                <td align="right" class="ziti2">调度时间</td>
+                <td class="ziti1">
+                {if $arr.sta1=='1'}
+                	{$arr.time2}         
+                {/if}
+                </td>
+          </tr>
+            <tr bgcolor="#FFFFFF">
+           	  <td align="right" class="ziti2">商品</td>
+              <td colspan="3" class="ziti1">{$arr2[0].goods_name}</td>
+          </tr>
+            <tr bgcolor="#FFFFFF">
+           	  <td align="right" class="ziti2">餐具</td>
+                <td class="ziti1">{$c_num}</td>
+                <td align="right" class="ziti2">蜡烛</td>
+                <td class="ziti1">{$l_num}</td>
+          </tr>
+            <tr bgcolor="#FFFFFF">
+           	  <td align="right" class="ziti2">生产提示</td>
+                <td class="ziti1">{$arr.scts}</td>
+                <td align="right" class="ziti2">外送提示</td>
+                <td class="ziti1">{$arr.wsts}</td>
+          </tr>
+            <tr bgcolor="#FFFFFF">
+           	  <td align="right" class="ziti2">抬头</td>
+                <td class="ziti1">{$arr.inv_payee}</td>
+                <td align="right" class="ziti2">内容</td>
+                <td class="ziti1">{$arr.inv_content}</td>
+          </tr>
+            <tr bgcolor="#FFFFFF">
+           	  <td align="right" class="ziti2">客户要求</td>
+              <td colspan="3" class="ziti1">{$arr.postscript}</td>
+          </tr>
+            <tr bgcolor="#FFFFFF">
+           	  <td align="right" class="ziti2">生日牌</td>
+                <td class="ziti1">{$arr.card_name}</td>
+                <td align="right" class="ziti2">内容</td>
+                <td class="ziti1">{$arr.card_message}</td>
+          </tr>
+          {else}
+          </tr>
+            <tr bgcolor="#FFFFFF">
+           	  <td  colspan="4" class="ziti2">无记录</td>
+          </tr>
+          {/if}
+
+        </table>
+  </div>
+    <!--pagebody--end-->
+<!--container--end-->
+</body>
+</html>

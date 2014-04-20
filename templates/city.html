@@ -1,0 +1,75 @@
+{if $full_page}
+{include file="header.html"}
+{insert_scripts files="utils.js,listtable.js,datepicker/WdatePicker.js"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<div class="form-div" >
+<form action="javascript:searchOrder()" name="searchForm" method="post" >
+ <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+ 组别
+ <select name="city_group">
+ 	<option value="0" >请选择</option>
+ 	{foreach from=$city_group item=c}
+ 	<option value ="{$c.city_code}" >{$c.city_name}组</option>
+ 	{/foreach}
+ </select>
+ <input type="submit" name="sub" class="button" value="搜索" />
+</form>
+</div>
+
+<div class="list-div" id="listDiv">
+{/if}
+
+<table cellspacing='1' cellpadding='3' id='list-table' width="100%">
+  <tr>
+   	<th width="15%">ID</th>
+   	<th width="30%">城市</th>
+   	<th width="30%">组别</th>
+   	<th width="">操作</th>
+   	
+
+  </tr>
+  {foreach from=$city_list item=list}
+<tr bgcolor="#ffffff" title="{$list.address}" onMouseover="this.style.backgroundColor='#e9f6f8'" onMouseout="this.style.backgroundColor=''" id="trList">
+  	<td align="center">{$list.id}</td>
+  	<td align="center">{$list.city_name}</td>
+  	<td align="center">{$list.city_group}组</td>
+  	<td align="center"><a href='city.php?act=editcity&id={$list.id}' >编辑 </a>　<a href='javascript:;' onclick="listTable.remove('{$list.id}','确认删除吗？','deletecity')" >删除 </a></td>
+
+  </tr>
+  {foreachelse}
+  <tr bgcolor="#ffffff"><td class="no-records" colspan="11">没有记录！</td></tr>
+  {/foreach}
+</table>
+<!-- 分页 -->
+<table id="page-table" bgcolor="#ffffff" cellspacing="0" width="100%">
+  <tr >
+    <td align="center"  nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+{if $full_page}
+  </div>
+
+
+<script language="JavaScript"><!--
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+
+
+{literal}
+function searchOrder(){
+	listTable.filter['city_group'] = Utils.trim(document.forms['searchForm'].elements['city_group'].value);
+	listTable.filter['page'] = 1;
+	listTable.loadList();
+}
+--></script>
+{/literal}
+{include file="pagefooter.htm"}
+{/if}

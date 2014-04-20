@@ -1,0 +1,163 @@
+{if $full_page}
+{include file="header.html"}
+{insert_scripts files="utils.js,listtable.js,datepicker/WdatePicker.js"}
+<div class="text_title">
+<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+<div style="clear:both"></div>
+</div>
+<!-- 订单搜索 -->
+<div class="form-div">
+  <form action="javascript:searchOrder()" name="searchForm">
+    <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+    起始日期<input name="sdate" type="text" id="sdate" value="{$filter.sdate}" onclick="javascript:WdatePicker()" readonly="true" size="10">
+    截止日期<input name="edate" type="text" id="edate" value="{$filter.edate}" onclick="javascript:WdatePicker()" readonly="true" size="10">
+	配送站<select name="station">
+	       <option value="" {if $Current} disabled="disabled"{/if}>全部</option>
+		   {foreach from=$stations item=sta}
+		   <option value="{$sta.station_id}" {if $Current}selected="selected"{/if}>{$sta.station_name}</option>
+		   	{/foreach}
+	</select>
+    <input type="submit" value="搜索" class="button" />
+  </form>
+</div>
+<form method="post" action="delivery_plan.php?act=batch_operate" name="listForm" onsubmit="return check()">
+<div class="list-div">&nbsp;&nbsp;&nbsp;<input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />&nbsp;&nbsp;全选
+    <input name="delete" type="submit" value="批量删除"  onclick="this.form.target = '_self' " class='button'/>
+    <input name="plan_id" type="hidden" value="" />
+</div>
+<div class="list-div" id="listDiv" >
+{/if}
+	<table width="100%" cellspacing="1">
+	  <tr><th>序号</th>
+		<th>配送站</th>
+		<th>配送日期</th>
+		<th>排班人数</th>
+		<th>操作</th>
+	  </tr>
+	  {foreach from=$delivery_list item=list key=sn}
+	  <tr bgcolor="#ffffff">
+	    <td align="center">{$list.i}</td> 
+		<td align="left">
+		   <input type="checkbox" name="checkboxes" onclick="checkon(this,{$sn});" />
+		   <input type="hidden" name="count" value="" />{$list.station_name}</td>
+		<td align="center">{$list.bdate}</td> 
+		<td align="center">{$list.deliveryplan_count}</td>
+        <td align="center"><a href='' onclick="removeBefore('{$list.bdate}','{$list.station_id}'); return false;">删除</a></td>
+	  </tr>
+	  {/foreach}
+	</table>
+<hr />
+	<table width="100%" cellspacing="1">
+		<tr>
+			<th colspan="5" align="left">详情</th>
+		</tr>
+	</table>
+	<!--{foreach from=$delivery_list item=list key=sn}--> 
+	<table name="tabs" id="{$sn}" {if $sn == 0} style="display:table;"{else}style="display:none;"{/if} width="100%">
+		{foreach from=$list.delivery item=glist}
+		<tr title="{$glist.date}" bgcolor="#ffffff">
+				<td align="center" width="10%">
+				   <input type="checkbox" name="checkboxes" key="{$sn}" value="{$glist.id}" />
+					{$glist.id}</td>
+				<td align="center" width="12%">{$glist.bdate}</td>
+				<td align="center" width="12%">{$glist.station_name}</td>
+				<td align="center" width="12%">{$glist.employee_name}</td>
+				<td align="center" width="10%">
+			<a href="javascript:;" onclick="listTable.remove({$glist.id}, '要删除这个排班吗？', 'remove')">删除</a></td>
+		</tr>
+		{/foreach}
+	</table>
+	<!--{/foreach}-->
+{if $full_page}
+</div>
+</form>
+<script language="JavaScript">
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+{literal}
+
+/**
+* 搜索订单
+*/
+function searchOrder()
+{
+        listTable.filter['sdate']    = Utils.trim(document.forms['searchForm'].elements['sdate'].value);
+        listTable.filter['edate']    = Utils.trim(document.forms['searchForm'].elements['edate'].value);
+        listTable.filter['station']  = Utils.trim(document.forms['searchForm'].elements['station'].value);
+        listTable.filter['page']     = 1;
+        listTable.loadList();
+}
+function check()
+{
+   var snArray = new Array();
+   var eles = document.forms['listForm'].elements;
+   for (var i=0; i<eles.length; i++)
+   {
+     if (eles[i].tagName == 'INPUT' && eles[i].type == 'checkbox' && eles[i].checked && eles[i].value != 'on')
+     {
+       snArray.push(eles[i].value);
+     }
+   }
+   if (snArray.length == 0)
+   {
+     return false;
+   }
+   else
+   {
+     eles['plan_id'].value = snArray.toString();
+     return true;
+   }
+}
+function show(tt,obj)
+{
+  document.getElementById('main_'+obj).style.backgroundColor='red';
+  document.getElementById(obj).style.display = "table";
+  var tab = document.getElementsByName('count');
+  for(var i=0;i<tab.length;i++)
+  {
+     if(obj !=i )
+	 {
+       document.getElementById(i).style.display = "none";
+       document.getElementById('main_'+i).style.backgroundColor='';
+	 }
+  }
+}
+function checkon(obj,status)
+{
+  var elems = document.getElementsByTagName("INPUT");
+  var tb = document.getElementById(status);
+
+  for (var i=0; i < elems.length; i++)
+  {
+    if (elems[i].key == status)
+    {
+      elems[i].checked = obj.checked;
+    }
+  }
+  if(obj.checked == true)
+  {
+     tb.style.display = "table";  
+  }
+  else
+  {
+     tb.style.display = "none";   
+  }
+}
+function removeBefore(dd,stn)
+{
+    var question = confirm("确定要删除该组排班吗？");  
+	if (question != 0)
+	{
+	  window.location.href = "delivery_plan.php?act=delete&bdate=" + dd + "&station=" + stn;
+	}
+}
+</script>
+{/literal}
+
+{include file="pagefooter.htm"}
+{/if}

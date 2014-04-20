@@ -1,0 +1,43 @@
+<!-- $Id: privilege_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+
+{if $full_page}
+{include file="header.html"}
+{insert_scripts files="utils.js,listtable.js"}
+<div class="text_title">
+<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+<div style="clear:both"></div>
+</div>
+
+<div class="list-div" id="listDiv">
+{/if}
+
+<table cellspacing='1' cellpadding='3' id='list-table' width="100%">
+  <tr>
+    <th>用户名</th>
+    <th>最后登录时间</th>
+    <th>最后登录IP</th>
+    <th>城市</th>
+    <th>真实姓名</th>
+    <th>操作</th>
+  </tr>
+  {foreach from=$admin_list item=list}
+  <tr bgcolor="#ffffff" onMouseover="this.style.backgroundColor='#e9f6f8'" onMouseout="this.style.backgroundColor=''">
+    <td class="first-cell" >{$list.user_name}</td>
+    <td align="center">{$list.last_time|date}</td>
+    <td align="center">{$list.last_ip}</td>
+    <td align="center">{$list.city_group}</td>
+    <td align="center">{$list.sname}</td>
+    <td align="center">
+      <a href="privilege.php?act=allot&id={$list.id}&user={$list.user_name}" title="{$lang.allot_priv}"><img src="images/icon_priv.gif" border="0" height="16" width="16"></a>&nbsp;&nbsp;
+      <a href="privilege.php?act=edit&id={$list.id}" title="{$lang.edit}"><img src="images/icon_edit.gif" border="0" height="16" width="16"></a>&nbsp;&nbsp;
+      <a href="privilege.php?act=remove&id={$list.id}" onclick="listTable.remove({$list.user_id}, '{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16"></a></td>
+  </tr>
+  {/foreach}
+</table>
+
+{if $full_page}
+</div>
+
+{include file="pagefooter.htm"}
+{/if}

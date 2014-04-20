@@ -1,0 +1,60 @@
+{include file="header.html"}
+{insert_scripts files="utils.js,listtable.js"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+</div>
+
+<div class="list-div" id="listDiv">
+
+<form action="" method="post" name="form1">
+<table width="100%" bgcolor="#ffffff">
+ <tr>
+    <td class="label">城市名</td>
+    <td>
+      <input type="text" name="city_name" value="{$city.city_name}" /></td>
+  </tr>
+  <tr>
+    <td class="label">代号</td>
+    <td>
+      <input type="text" name="city_code" value="{$city.city_code}" /></td>
+  </tr>
+  <tr>
+    <td class="label">组别</td>
+    <td>
+    	<select name="city_group" >
+    		<option value="0" >新组</option>
+    		{foreach from=$city_group item=c}
+		 	<option value ="{$c.city_code}" {if $city.city_group eq $c.city_code} selected="selected" {/if} >{$c.city_name}组</option>
+		 	{/foreach}
+    	</select>
+    </td>
+  </tr>
+<tr>
+    <td class="label">共有批次</td>
+    <td>
+      <input type="text" name="turn" value="{$city.turn}" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <input type="submit" value="确定" name="sub" class="button" />&nbsp;&nbsp;&nbsp;
+      <input type="reset" value="重置" class="button" />
+      <input type="hidden" value="{$actions}" name="act" />
+      <input type="hidden" value = "{$city.id}" name="id" />
+  </tr>
+</table>
+</form>
+</div>
+
+
+<script language="JavaScript"><!--
+
+{literal}
+
+--></script>
+{/literal}
+{include file="pagefooter.htm"}

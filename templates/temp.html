@@ -1,0 +1,59 @@
+{if $full_page}
+{include file="header.html"}
+{insert_scripts files="utils.js,listtable.js,datepicker/WdatePicker.js"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<div class="form-div">
+    <form action="javascript:searchOrder()" name="searchForm">
+    	<img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+        日期：<input name="bdate" type="text" value="{$filter.bdate}" onClick="javascript:WdatePicker()" readonly="true" size="10">&nbsp;&nbsp;
+        <input type="submit" value="搜索" class="button" class="button" />
+    </form>
+</div>
+
+<div id="listDiv">{/if}
+    <table cellspacing='1' cellpadding='3' id="table" width="100%">
+        <tr id="attr">
+            <th>配送站</th>
+            <th>批次</th>
+            <th>蛋糕数</th>
+        </tr>
+        {foreach from=$temp_list item=list}
+        <tr bgcolor="#ffffff" onMouseover="this.style.backgroundColor='#e9f6f8'" onMouseout="this.style.backgroundColor=''">
+            <td align="center" width="50px" >
+            {if $list.station_id eq '1'}中关村
+            {elseif $list.station_id eq '2'}航天桥
+            {elseif $list.station_id eq '3'}大郊亭
+            {elseif $list.station_id eq '5'}国美
+            {elseif $list.station_id eq '4'}亚运村
+            {elseif $list.station_id eq '6'}洋桥
+            {elseif $list.station_id eq '7'}台湖站
+            {elseif $list.station_id eq '8'}陶然亭
+            {else}未分站{/if}
+            </td>
+            <td align="center" style="color:#F0F">{$list.turn}</td>
+            <td align="center" style="color:#00F">{$list.gnum}</td>
+        </tr>
+        {foreachelse}
+		<tr><td align="center" colspan="3" >没有查询到任何记录！</td></tr>
+        {/foreach}
+        <tr><td align="center" colspan="3" style="font-size:14px;">本处只提供临时站点的信息查询！</td></tr>
+    </table>
+    <table id="page-table" cellspacing="0"><tr align="center"><td align="center" nowrap="true"></td></tr></table>{if $full_page}
+</div>
+
+{literal}<script language="JavaScript">
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+
+function searchOrder() {
+	listTable.filter['bdate'] = Utils.trim(document.forms['searchForm'].elements['bdate'].value);
+	listTable.loadList();
+}
+</script>{/literal}{include file="pagefooter.htm"}{/if}

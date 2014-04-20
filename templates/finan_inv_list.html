@@ -1,0 +1,201 @@
+{if $full_page}
+{include file="header.html"}
+{insert_scripts files="utils.js,listtable.js,datepicker/WdatePicker.js"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<div class="form-div">
+ <form action="javascript:searchOrder()" name="searchForm">
+    <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+    日期<input name="sdate" type="text" id="sdate" value="{$filter.sdate}" onclick="javascript:WdatePicker()" readonly="true" size="10">
+	发票项目<select name="turns">
+	       <option value="">全部</option>
+		   <option value="1">蛋糕</option>
+		   <option value="2">食品</option>
+	    </select>
+	批次<select name="turn">
+	       <option value="">全部</option>
+		   <option value="1">第1批</option>
+		   <option value="2">第2批</option>
+		   <option value="3">第3批</option>
+		   <option value="4">第4批</option>
+	    </select>
+	配送站<select name="station">
+	       <option value="">全部</option>
+		   <option value="1">中关村</option>
+		   <option value="2">航天桥</option>
+		   <option value="3">亚运村</option>
+		   <option value="4">国美</option>
+		   <option value="5">大郊亭</option>
+		   <option value="6">洋桥</option>
+		   <option value="7">台湖</option>
+		   <option value="8">陶然亭</option>
+		   <option value="9">天津</option>
+	    </select>
+	订单号<input name="order_sn" type="text" value="{$filter.order_sn}" maxlength="21" id="order_sn" size="16">
+	流水号<input name="print_sn" type="text" value="{$filter.print_sn}" maxlength="4" id="print_sn" size="5">
+	发票<select name="inv_f">
+			<option value="" selected="selected">全部</option>
+			<option value="1">已开</option>
+			<option value="2" selected="selected">未开</option>
+		</select>
+	<input type="submit" value="搜索" class="button" />
+  </form>
+</div>
+<form method="post" action="finance_inv.php" name="listForm" onSubmit="return check()">
+<div class="list-div">
+   &nbsp;<input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" id="ct" />&nbsp;&nbsp;全选&nbsp;
+    <input name="checks" type="button"  value="批量处理"  onclick="return set_check();" class="button"/>&nbsp;&nbsp;&nbsp;&nbsp;
+</div>
+<div class="list-div" id="listDiv">
+{/if}
+
+<table cellspacing='1' cellpadding='3' id='list-table' width="100%">
+  <tr>
+   	<th valign=top style="overflow: hidden; text-overflow:ellipsis" width="">	订单号</th>
+	<th valign=top style="overflow: hidden; text-overflow:ellipsis" width="7%">	流水号</th>
+	<th valign=top style="overflow: hidden; text-overflow:ellipsis" width="8%">	配送号</th>
+    <th valign=top style="overflow: hidden; text-overflow:ellipsis" width="15%">支付方式</th>
+    <th valign=top style="overflow: hidden; text-overflow:ellipsis" width="10%">金额</th>
+    <th valign=top style="overflow: hidden; text-overflow:ellipsis" width="6%">项目</th>
+    <th valign=top style="overflow: hidden; text-overflow:ellipsis" width="20%">发票抬头</th>
+    <th valign=top style="overflow: hidden; text-overflow:ellipsis" width="6%">状态</th>
+    <th valign=top style="overflow: hidden; text-overflow:ellipsis" width="6%">操作</th>
+  </tr>
+  {foreach from=$order_list item=list key=sn}
+<tr bgcolor="#ffffff" title="配送时间：{$list.best_time}，{$list.to_buyer}" onMouseover="this.style.backgroundColor='#e9f6f8'" onMouseout="this.style.backgroundColor=''" id="trList">
+  	<td align="left">
+	   <input type="checkbox" name="checkboxes" value="{$list.order_id}" />
+       <input type="hidden" name="order[{$sn}][oid]" value="{$list.order_id}" />
+	  <a href="more_order_info.php?order_id={$list.order_id}" target="_blank">{$list.order_sn}</a></td>
+	  <td align="left">{$list.print_sn}</td>
+	   <td align="left">{$list.route_name}-{$list.turn}</td>
+    <td align="left">{$list.pay_name}{$list.pay_note}</td>
+    <td align="center"><input type="text" name="mount" id="mount_{$list.order_id}" value="{$list.total}" size="5" /></td>
+    <td align="center">{$list.inv_content}</td>
+    <td align="left">{$list.inv_payee}</td>
+    <td align="center" id="txt_{$list.order_id}">{if $list.id}已开{else}未开{/if}</td>
+	<td align="center"><a href="javascript:;" onclick="listTable.remove({$list.order_id}, '确认开票吗？', 'ud')">开票</a>
+ 	<!--a href="javascript:;" onclick="check_sg({$list.order_id},'{$list.order_id}')">开票</a></td-->
+  </tr>
+  {foreachelse}
+  <tr bgcolor="#ffffff"><td class="no-records" colspan="15">没有记录！</td></tr>
+  {/foreach}
+  {if $order_list}	
+ {/if}
+</table>
+<!-- 分页 -->
+<table id="page-table" bgcolor="#ffffff" cellspacing="0" width="100%">
+  <tr >
+    <td align="center"  nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+{if $full_page}
+  </div>
+   <input name="sn" type="hidden" value="" />
+</form>
+
+<script language="JavaScript"><!--
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+
+{foreach from=$filter item=item key=key}
+	listTable.filter.{$key} = '{$item}';
+{/foreach}
+{literal}
+function searchOrder()
+{
+        listTable.filter['sdate']    = Utils.trim(document.forms['searchForm'].elements['sdate'].value);
+        listTable.filter['order_sn'] = Utils.trim(document.forms['searchForm'].elements['order_sn'].value);
+		listTable.filter['print_sn'] = Utils.trim(document.forms['searchForm'].elements['print_sn'].value);
+        listTable.filter['turns']     = Utils.trim(document.forms['searchForm'].elements['turns'].value);//发票项目
+		listTable.filter['turn']     = Utils.trim(document.forms['searchForm'].elements['turn'].value);
+		listTable.filter['station']     = Utils.trim(document.forms['searchForm'].elements['station'].value);
+        listTable.filter['inv_f']    = Utils.trim(document.forms['searchForm'].elements['inv_f'].value);//发票状态
+        listTable.filter['page']     = 1;
+        listTable.loadList();
+}
+function check()
+{
+   var snArray = new Array();
+   var eles = document.forms['listForm'].elements;
+   for (var i=0; i<eles.length; i++)
+   {
+     if (eles[i].tagName == 'INPUT' && eles[i].type == 'checkbox' && eles[i].checked && eles[i].value != 'on')
+     {
+       snArray.push(eles[i].value);
+     }
+   }
+   if (snArray.length == 0)
+   {
+     return false;
+   }
+   else
+   {
+     eles['sn'].value = snArray.toString();
+     return true;
+   }
+}
+function check_sg(id,sn)
+{	
+	var inv = document.getElementById('mount_'+sn).value;
+	if(confirm('确认发票已开？'))
+	{
+		Ajax.call('finan_inv.php', 'act=ud&id=' + id + '&inv=' + inv, null, "GET", "TEXT");
+	}
+	document.getElementById('txt_'+sn).innerHTML = '已开';
+}
+function Callback(result, txt)
+{
+  
+  if (result.error > 0)
+  {
+    alert(result.message);
+  }
+  else
+  {
+	try
+    {
+      document.getElementById('listDiv').innerHTML = result.content;
+
+      if (typeof result.filter == "object")
+      {
+        listTable.filter = result.filter;
+      }
+
+      listTable.pageCount = result.page_count;
+    }
+    catch (e)
+    {
+      alert(e.message);
+    }
+  }
+}
+function get_checked()
+{
+   var snArray = new Array();
+   var res = '';
+   var eles = document.forms['listForm'].elements;
+   for (var i=0; i<eles.length; i++)
+   {
+     if (eles[i].tagName == 'INPUT' && eles[i].type == 'checkbox' && eles[i].checked && eles[i].value != 'on' && eles[i].value >1)
+     {
+       snArray.push(eles[i].value);
+     }
+   }
+   if (snArray.length > 0)
+   {
+      res = snArray.toString();
+   }
+   return res;
+}
+--></script>
+{/literal}
+{include file="pagefooter.htm"}
+{/if}

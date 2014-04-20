@@ -1,0 +1,128 @@
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="utils.js,listtable.js"}
+<script type="text/javascript" src="js/calendar.js"></script>
+<!-- 订单搜索 -->
+<div class="form-div">
+  <form action="javascript:searchAddess()" name="searchForm">
+    <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+   地址<input name="address" type="text" id="consignee" size="15">
+	所属地
+	  <select name="country" id="country" >
+	    <option value="0">请选择</option>
+		<option value="440">杭州</option>	   
+	    <option value="442">上海</option>
+		<option value="441">北京</option>
+		<option value="443">天津</option>
+	  </select>
+    <input type="submit" value="开始查询" class="button" />
+  </form>
+</div>
+
+<!-- 订单列表 -->
+<form method="post" action="order.php?act=operate" name="listForm" onsubmit="return check()">
+  <div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" /><a href="javascript:listTable.sort('address_id', 'DESC'); ">ID</a></th>
+    <th>城市</th>
+    <th>城区</th>
+	<th>范围</th>
+    <th>地址</th>
+    <th>路区</th>
+    <th>配送站</th>
+    <th>操作</th>
+  <tr>
+  {foreach from=$address item=list}
+  <tr>
+    <td valign="top" nowrap="nowrap"><input type="checkbox" name="checkboxes" value="{$list.order_sn}" />{$list.address_id}</td>
+    <td>{$list.country}</td>
+    <td>{$list.city}</td>
+    <td>{$list.province}</td>
+    <td align="left" valign="top" nowrap="nowrap">{$list.address}</td>
+    <td align="right" valign="top" nowrap="nowrap">{$list.route}</td>
+    <td align="right" valign="top" nowrap="nowrap">{$list.station}</td>
+	<td><a href="#">编辑</a></td>
+  </tr>
+  {/foreach}
+</table>
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+  </div>
+</form>
+<script language="JavaScript">
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+{literal}
+
+    function searchAddess()
+    {
+        listTable.filter['order_sn'] = Utils.trim(document.forms['searchForm'].elements['order_sn'].value);
+        listTable.filter['consignee'] = Utils.trim(document.forms['searchForm'].elements['consignee'].value);
+		listTable.filter['best_time'] = Utils.trim(document.forms['searchForm'].elements['best_time'].value);
+		listTable.filter['country'] = Utils.trim(document.forms['searchForm'].elements['country'].value);
+		listTable.filter['pay_id']     = document.forms['searchForm'].elements['pay_id'].value;
+		listTable.filter['print']     = document.forms['searchForm'].elements['print'].checked ? 1 : 0;
+        listTable.filter['composite_status'] = document.forms['searchForm'].elements['status'].value;
+        listTable.filter['page'] = 1;
+        listTable.loadList();
+    }
+
+    function check()
+    {
+      var snArray = new Array();
+      var eles = document.forms['listForm'].elements;
+      for (var i=0; i<eles.length; i++)
+      {
+        if (eles[i].tagName == 'INPUT' && eles[i].type == 'checkbox' && eles[i].checked && eles[i].value != 'on')
+        {
+          snArray.push(eles[i].value);
+        }
+      }
+      if (snArray.length == 0)
+      {
+        return false;
+      }
+      else
+      {
+        eles['order_id'].value = snArray.toString();
+        return true;
+      }
+    }
+function printBefore()
+{
+ var question = confirm("确定要打印订单？")  
+
+if (question != 0)
+
+{
+  window.open('order.php?act=info&order_id={$order.order_id}&print=1');
+}
+
+}
+function synchrony(order_id)
+{
+  var question = confirm('要重新同步订单吗？');
+  if(question != 0)
+  {
+    Ajax.call('order.php?act=synchrony','&order_id='+order_id,null,"GET", "text");
+  }
+}
+</script>
+{/literal}
+{/if}

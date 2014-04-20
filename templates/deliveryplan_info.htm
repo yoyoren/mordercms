@@ -1,0 +1,91 @@
+{include file="pageheader.htm"}
+{insert_scripts files="transport.js,datepicker/WdatePicker.js"}
+<div class="main-div">
+<form name="theForm" method="post" enctype="multipart/form-data" >
+<table width="100%">
+  <tr>
+    <td class="label">日期：</td>
+    <td>
+      <input type="text" name="plan_date" maxlength="20" value="{$plan.date}"  onclick="javascript:WdatePicker()" size="10"/><font color="#FF0000">必填*</font></td>
+  </tr>
+  <tr>
+    <td class="label">批次：</td>
+    <td>
+      <select name="shipping_timeplan_id">
+	  <option value="">请选配送批次</option>
+	  {foreach from=$times_list item=time}
+	  <option value="{$time.id}"{if $time.id eq $plan.shipping_timeplan_id}selected{/if}>{$time.shipping_timeplan_name}</option>
+	  {/foreach}
+	  </select></td>
+  </tr>
+  <tr>
+    <td class="label">配送站：</td>
+    <td><select name="station" onchange="change_employee(this)">
+	  <option value="">请选择配送站</option>
+	  {foreach from=$station_list item=station}
+	  <option value="{$station.id}"{if $station.id eq $plan.shipping_station_id}selected{/if}>{$station.shipping_station_name}</option>
+	  {/foreach}
+	  </select></td>
+  </tr>
+  <tr>
+    <td class="label">员工：</td>
+    <td><select name="employee" id="employee">
+	  <option value="">请选择配送员</option>
+	  {foreach from=$employee_list item=employee}
+	  <option value="{$employee.employee_id}"{if $employee.employee_id eq $plan.employee_id}selected{/if}>{$employee.employee_name}</option>
+	  {/foreach}
+	  </select></td>
+  </tr>
+  <tr>
+    <td class="label">
+      <input type="submit" value="提交" class="button" /></td>
+	  <td>&nbsp;&nbsp;&nbsp;
+      <input type="reset" value="重置" class="button" />
+      <input type="hidden" name="act" value="{$form_act}" />
+	 <input type="hidden" name="id" value="{$plan.id}" />
+	  </td>
+  </tr>
+</table>
+</form>
+</div>
+<script type="text/javascript">
+function change_employee(obj)
+{
+  var parent = obj.options[obj.selectedIndex].value;  
+  //alert(parent);
+  Ajax.call('delivery_plan.php?act=employee', 'station=' + parent , show_response, "GET", "JSON");
+}
+function show_response(result)
+{
+  var sel = document.getElementById('employee');
+
+  sel.length = 1;
+  sel.selectedIndex = 0;
+  sel.style.display = "" ;
+
+  if (document.all)
+  {
+    sel.fireEvent("onchange");
+  }
+  else
+  {
+    var evt = document.createEvent("HTMLEvents");
+    evt.initEvent('change', true, true);
+    sel.dispatchEvent(evt);
+  }
+
+  if (result)
+  {
+  //alert(result.regions.length);   
+    for (i = 0; i < result.length; i ++ )
+    {
+      var opt = document.createElement("OPTION");
+      opt.value = result[i].employee_id;
+      opt.text  = result[i].employee_name;
+
+      sel.options.add(opt);
+    }
+  }
+}
+</script>
+{include file="pagefooter.htm"}

@@ -1,0 +1,56 @@
+{include file="header.html"}
+{insert_scripts files="utils.js,transport.js,validator.js"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	{if $action_link}
+	<div class="action-span"><a href="{$action_link.href}">{$action_link.text}</a></div>
+	{/if}
+	<div style="clear:both"></div>
+</div>
+<div class="main-div">
+    <form name="theForm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+        <table width="100%">
+            <tr>
+                <td class="label">路区名称</td>
+                <td><input type="text" name="route_name" maxlength="20" value="{$route_info.route_name}" size="34"/></td>
+            </tr>
+            <tr>
+                <td class="label">路区编号</td>
+                <td><input type="text" name="route_code" value="{$route_info.route_code}" size="34" /></td>
+            </tr>
+            <tr>
+                <td class="label">费用</td>
+                <td><input type="text" name="fee" maxlength="32" value="{$route_info.fee}" size="34" /></td>
+            </tr>
+            <tr>
+                <td class="label">所属配送站</td>
+                <td><select name="station_id"><option value="">-请选择-</option>{html_options options=$station_list selected=$route_info.station_id}</select></td>
+            </tr>
+            {if $form_act eq 'update'}
+            <tr>
+                <td class="label">是否在用</td>
+                <td><input type="checkbox" name="flag" {if $route_info.flag eq '1'}checked="checked"{/if} value="1" /></td>
+            </tr>
+            {/if}
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="提交信息" class="button" />&nbsp;&nbsp;&nbsp;
+                    <input type="reset" value="重置信息" class="button" />
+                    <input type="hidden" name="act" value="{$form_act}" /><input type="hidden" name="id" value="{$route_info.route_id}" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+function validate() {
+	var validator = new Validator('theForm');
+	validator.required('route_name', '路区名称不能为空！');
+	validator.required('route_code', '路区编号不能为空！');
+	validator.required('station_id', '配送站不能为空！');
+	return validator.passed();
+}
+</script>

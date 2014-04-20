@@ -1,0 +1,93 @@
+{if $full_page}
+{include file="header.html"}
+{insert_scripts files="utils.js,listtable.js,datepicker/WdatePicker.js"}
+<div class="text_title">
+	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
+	<div class="action-span"><a href="export_excel.php?date={$filter.sdate}">导出</a></div>
+	<div style="clear:both"></div>
+</div>
+<div class="form-div">
+  <form action="finan_each_check.php?act=list" name="listForm">
+    <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+    日期<input name="sdate" type="text" id="sdate" value="{$filter.sdate}" onClick="javascript:WdatePicker()" readonly="true" size="10" />
+	<input type="submit" value="搜索" class="button" />
+  </form>
+</div>
+<div class="list-div" id="listDiv">
+{/if}
+
+<table cellspacing='1' cellpadding='3' id='list-table' width="100%">
+  <tr>
+   	<td>序号</td>
+    <td>订单编号</td>
+    <td>流水号</td>
+    <td>数量</td>
+    <td>折后金额</td>
+    <td>附件费</td>
+    <td>配送费</td>
+    <td>订单总额</td>
+    <td>现金</td>
+    <td>POS</td>
+    <td>支付宝</td>
+    <td>快钱</td>
+    <td>礼金卡</td>
+    <td>现金券</td>
+    <td>月结</td>
+    <td>免费支付</td>
+  </tr>
+  {foreach from=$order_list item=list key=sn}
+  {if $list.key eq 0}
+ <tr bgcolor="#FFFFFF" title="{$list.best_time}" onMouseover="this.style.backgroundColor='#FFFF99'" onMouseout="this.style.backgroundColor=''" id="trList">
+ {elseif $list.key eq 1}
+ <tr bgcolor="#99FFFF" title="{$list.best_time}" onMouseover="this.style.backgroundColor='#99FF99'" onMouseout="this.style.backgroundColor='#99FFFF'" id="trList">
+ {/if}
+    <td>{$list.xuhao}</td>
+    <td>{$list.order_sn}</td>		<!-- 订单编号 -->
+    <td>{$list.p_sn}</td>						<!-- 流水号 -->
+    <td>{$list.goods_numbers}</td>	<!-- 数量 -->
+    <td>{$list.goods_amount}</td>	<!-- 折后金额 -->
+    <td>{$list.pack_fee}</td>		<!-- 附件费 -->
+    <td>{$list.peisongfei}</td>		<!-- 配送费 -->
+    <td>{$list.totalprice}</td>		<!-- 订单总额 -->
+    <td>{$list.cash}</td>			<!-- 现金 -->
+    <td>{$list.pos}</td>				<!-- POS -->
+    <td>{if $list.isornoz eq 1}<span style="color:#FF0000">{$list.zhifubao}</span>{else}{$list.zhifubao}{/if}</td>		<!-- 支付宝 -->
+    <td>{if $list.isornok eq 1}<span style="color:#FF0000">{$list.kuaiqian}</span>{else}{$list.kuaiqian}{/if}</td>		<!-- 快钱 -->
+    <td>{$list.surplus}</td>			<!-- 礼金卡 -->
+    <td>{$list.bonus}</td>			<!-- 现金券 -->
+    <td>{$list.yuejie}</td>			<!-- 月结 -->
+    <td>{$list.free}</td>			<!-- 免费支付 -->
+</tr>
+  {foreachelse}
+  <tr bgcolor="#ffffff"><td class="no-records" colspan="15">没有记录！</td></tr>
+  {/foreach}
+<tr bgcolor="#FF00FF">
+    <td colspan="3">总计</td>	<!-- 序号 -->	<!-- 订单编号 --><!-- 流水号 -->					
+    <td>{$total.goods_numbers}</td>	<!-- 数量 -->
+    <td>{$total.goods_amount}</td>	<!-- 折后金额 -->
+    <td>{$total.pack_fee}</td>		<!-- 附件费 -->
+    <td>{$total.peisongfei}</td>		<!-- 配送费 -->
+    <td>{$total.totalprice}</td>		<!-- 订单总额 -->
+    <td>{$total.cash}</td>			<!-- 现金 -->
+    <td>{$total.pos}</td>				<!-- POS -->
+    <td>{$total.zhifubao}</td>		<!-- 支付宝 -->
+    <td>{$total.kuaiqian}</td>		<!-- 快钱 -->
+    <td>{$total.surplus}</td>			<!-- 礼金卡 -->
+    <td>{$total.bonus}</td>			<!-- 现金券 -->
+    <td>{$total.yuejie}</td>			<!-- 月结 -->
+    <td>{$total.free}</td>			<!-- 免费支付 -->
+</tr>
+</table>
+<!-- 分页 -->
+<table id="page-table" bgcolor="#ffffff" cellspacing="0" width="100%">
+  <tr >
+    <td align="center"  nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+{if $full_page}
+  </div>
+
+{include file="pagefooter.htm"}
+{/if}
