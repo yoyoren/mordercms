@@ -43,10 +43,10 @@ padding-left:25px;
 <table width="700" border="0" height="">
 	<tr height="30">
       <td width="18%" valign="center" ><b>
-	  <?php $_from = $this->_var['array']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'pack_0_64548500_1397617936');if (count($_from)):
-    foreach ($_from AS $this->_var['pack_0_64548500_1397617936']):
+	  <?php $_from = $this->_var['array']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'pack_0_70509700_1399363383');if (count($_from)):
+    foreach ($_from AS $this->_var['pack_0_70509700_1399363383']):
 ?>
-	  <font size="-1"><?php echo $this->_var['pack_0_64548500_1397617936']; ?></font><br/>
+	  <font size="-1"><?php echo $this->_var['pack_0_70509700_1399363383']; ?></font><br/>
 	  <?php endforeach; endif; unset($_from); ?><?php $this->pop_vars();; ?>
 	  </b></td>
       <td width="17%">  &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->_var['order']['add_date']; ?></td>	  
@@ -106,17 +106,17 @@ padding-left:25px;
 	<tr height="26">
 		<td colspan="7">&nbsp;</td>
   	</tr>
-    <?php $_from = $this->_var['goods']['goods']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'goods_0_64630400_1397617936');if (count($_from)):
-    foreach ($_from AS $this->_var['goods_0_64630400_1397617936']):
+    <?php $_from = $this->_var['goods']['goods']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }; $this->push_vars('', 'goods_0_70591500_1399363383');if (count($_from)):
+    foreach ($_from AS $this->_var['goods_0_70591500_1399363383']):
 ?>
      <tr height="16" style="line-height:12px;">
-          <td width="11%" align="left"><?php if ($this->_var['goods_0_64630400_1397617936']['goods_name'] == '猫爪蛋糕'): ?><span style="font-size:11px;"><?php echo $this->_var['goods_0_64630400_1397617936']['goods_name']; ?>+花环</span><?php else: ?><?php echo $this->_var['goods_0_64630400_1397617936']['goods_name']; ?><?php endif; ?></td>
-          <td width="9%" align="center"><?php if ($this->_var['goods_0_64630400_1397617936']['goods_name'] == '猫爪蛋糕'): ?>1  套<?php else: ?><?php echo $this->_var['goods_0_64630400_1397617936']['goods_attr']; ?><?php endif; ?></td>
-           <td width="8%" align="center"><?php echo $this->_var['goods_0_64630400_1397617936']['goods_number']; ?></td>
-           <td width="8%" align="center"><?php if ($this->_var['goods_0_64630400_1397617936']['goods_sn'] == 'D3'): ?>套<?php else: ?>个<?php endif; ?></td>
-           <td width="13%" align="center"><?php echo $this->_var['goods_0_64630400_1397617936']['goods_price']; ?></td>
-           <td width="10%" align="center"><?php echo $this->_var['goods_0_64630400_1397617936']['goods_discount']; ?></td>
-           <td width="41%"><?php echo $this->_var['goods_0_64630400_1397617936']['goods_sub']; ?></td>
+          <td width="11%" align="left"><?php if ($this->_var['goods_0_70591500_1399363383']['goods_name'] == '猫爪蛋糕'): ?><span style="font-size:11px;"><?php echo $this->_var['goods_0_70591500_1399363383']['goods_name']; ?>+花环</span><?php else: ?><?php echo $this->_var['goods_0_70591500_1399363383']['goods_name']; ?><?php endif; ?></td>
+          <td width="9%" align="center"><?php if ($this->_var['goods_0_70591500_1399363383']['goods_name'] == '猫爪蛋糕'): ?>1  套<?php else: ?><?php echo $this->_var['goods_0_70591500_1399363383']['goods_attr']; ?><?php endif; ?></td>
+           <td width="8%" align="center"><?php echo $this->_var['goods_0_70591500_1399363383']['goods_number']; ?></td>
+           <td width="8%" align="center"><?php if ($this->_var['goods_0_70591500_1399363383']['goods_sn'] == 'D3'): ?>套<?php else: ?>个<?php endif; ?></td>
+           <td width="13%" align="center"><?php echo $this->_var['goods_0_70591500_1399363383']['goods_price']; ?></td>
+           <td width="10%" align="center"><?php echo $this->_var['goods_0_70591500_1399363383']['goods_discount']; ?></td>
+           <td width="41%"><?php echo $this->_var['goods_0_70591500_1399363383']['goods_sub']; ?></td>
      </tr>
     <?php endforeach; endif; unset($_from); ?><?php $this->pop_vars();; ?>
 	<tr><td colspan="7"></td></tr>

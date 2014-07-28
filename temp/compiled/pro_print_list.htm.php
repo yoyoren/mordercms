@@ -1,7 +1,7 @@
 <?php if ($this->_var['full_page']): ?>
 <?php echo $this->fetch('header.html'); ?>
 <?php echo $this->smarty_insert_scripts(array('files'=>'utils.js,listtable.js,datepicker/WdatePicker.js')); ?>
-<embed src="tip.mp3" name="music" loop='-1' autostart=false hidden=true mastersound >
+<EMBED NAME="MUSIC1" SRC="images/tip.mp3" id='music1' Loop=-1 AUTOSTART=false hidden=true MASTERSOUND> 
 <div class="text_title">
 	<h3 style="float:left;display:inline;">--<?php echo $this->_var['ur_here']; ?></h3>
 	<?php if ($this->_var['action_link']): ?>
@@ -181,7 +181,7 @@
   </div>
 </form>
 
-<script language="JavaScript"><!--
+<script language="JavaScript">
 listTable.recordCount = <?php echo $this->_var['record_count']; ?>;
 listTable.pageCount = <?php echo $this->_var['page_count']; ?>;
 
@@ -254,9 +254,12 @@ function searchPro()
 
 		var mytime = new Date();
 		if(mytime.getHours() < 21 && mytime.getHours()>8){
-			//alert('您有新的订单');
-			alert('你有新的订单');
-			document.music.play();
+		
+			//document.getElementById('music1').play();
+			
+			document.getElementById('music1').play(); 
+			alert('您有新的订单');
+			// document.MUSIC1.play(); 
 			window.location.reload();
 		}
 
@@ -264,9 +267,9 @@ function searchPro()
 		
 	}
    }
-   var int = window.setInterval("refresh()",180000);
+   var int = window.setInterval("refresh()",50000);
    
---></script>
+</script>
 
 <?php echo $this->fetch('pagefooter.htm'); ?>
 <?php endif; ?>

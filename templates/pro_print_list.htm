@@ -1,7 +1,7 @@
 {if $full_page}
 {include file="header.html"}
 {insert_scripts files="utils.js,listtable.js,datepicker/WdatePicker.js"}
-<embed src="tip.mp3" name="music" loop='-1' autostart=false hidden=true mastersound >
+<EMBED NAME="MUSIC1" SRC="images/tip.mp3" id='music1' Loop=-1 AUTOSTART=false hidden=true MASTERSOUND> 
 <div class="text_title">
 	<h3 style="float:left;display:inline;">--{$ur_here}</h3>
 	{if $action_link}
@@ -175,7 +175,7 @@
   </div>
 </form>
 
-<script language="JavaScript"><!--
+<script language="JavaScript">
 listTable.recordCount = {$record_count};
 listTable.pageCount = {$page_count};
 
@@ -246,9 +246,12 @@ function searchPro()
 
 		var mytime = new Date();
 		if(mytime.getHours() < 21 && mytime.getHours()>8){
-			//alert('您有新的订单');
-			alert('你有新的订单');
-			document.music.play();
+		
+			//document.getElementById('music1').play();
+			
+			document.getElementById('music1').play(); 
+			alert('您有新的订单');
+			// document.MUSIC1.play(); 
 			window.location.reload();
 		}
 
@@ -256,9 +259,9 @@ function searchPro()
 		
 	}
    }
-   var int = window.setInterval("refresh()",180000);
+   var int = window.setInterval("refresh()",50000);
    
---></script>
+</script>
 {/literal}
 {include file="pagefooter.htm"}
 {/if}

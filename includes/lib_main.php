@@ -1097,7 +1097,7 @@ function get_goods_weight($attr)
 	}
 	elseif(floatval($attr) == 0.25)
 	{
-	   $weight = "110g";
+	   $weight = "115g";
 	}
 	elseif(floatval($attr) == 121)
 	{
@@ -1359,9 +1359,13 @@ function print_goods($order_id)
 	foreach($b as $k=>$v){
 		if($v['goods_id']!=67)//数字蜡烛没有餐具
 		{
-			if(floor($v['goods_attr'])<=3)
+			if(floor($v['goods_attr'])<=3&&floor($v['goods_attr'])>=1)
 			{
 			   $freecanju+=floor($v['goods_attr'])*$v['goods_number']*5;
+			}
+			else if($v['goods_attr']==0.25)
+			{
+			   $freecanju+=$v['goods_number'];
 			}
 			else
 			{
